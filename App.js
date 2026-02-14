@@ -1,20 +1,54 @@
+import React, { useState } from 'react';
+import { useColorScheme, View, StyleSheet } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+// Import your screens
+import Home from './src/screens/Home';
+import Settings from './src/screens/Settings';
 
 export default function App() {
+  // 1. Get the initial system theme (dark or light)
+  const systemScheme = useColorScheme();
+  
+  // 2. State to manage manual dark mode toggle
+  const [isDarkMode, setIsDarkMode] = useState(systemScheme === 'dark');
+  
+  // 3. State to manage navigation
+  const [currentTab, setCurrentTab] = useState('Home');
+
+  // Function to toggle the theme
+  const toggleTheme = () => setIsDarkMode(!isDarkMode);
+
+  // Determine the mode string ('dark' or 'light') to pass down
+  const mode = isDarkMode ? 'dark' : 'light';
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaProvider>
+      <View style={styles.container}>
+        {/* Update StatusBar based on theme */}
+        <StatusBar style={isDarkMode ? 'light' : 'dark'} />
+        
+        {currentTab === 'Home' ? (
+          <Home 
+            onNavigate={setCurrentTab} 
+            mode={mode} 
+          />
+        ) : (
+          <Settings 
+            onNavigate={setCurrentTab} 
+            isDarkMode={isDarkMode} 
+            onToggleTheme={toggleTheme} 
+            mode={mode} 
+          />
+        )}
+      </View>
+    </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
