@@ -7,25 +7,26 @@ import { useTheme } from '../hooks/useTheme';
 export default function BottomNav({ onNavigate, currentTab, mode }) {
   // Pass 'mode' into useTheme so the colors react to your toggle
   const theme = useTheme(mode);
-  
+
   return (
     <View style={[styles.nav, { backgroundColor: theme.background, borderTopColor: theme.border }]}>
-      <NavItem 
-        icon={MessageSquare} 
-        label="Chats" 
+      <NavItem
+        icon={MessageSquare}
+        label="Chats"
         onPress={() => onNavigate('Home')}
-        color={currentTab === 'Home' ? theme.primary : theme.secondaryText} 
+        color={currentTab === 'Home' ? theme.primary : theme.secondaryText}
       />
-      <NavItem 
-        icon={Phone} 
-        label="Calls" 
-        color={theme.secondaryText} 
+      <NavItem
+        icon={Phone}
+        label="Calls"
+        onPress={() => onNavigate('Calls')}
+        color={currentTab === 'Calls' ? theme.primary : theme.secondaryText}
       />
-      <NavItem 
-        icon={Settings} 
-        label="Settings" 
+      <NavItem
+        icon={Settings}
+        label="Settings"
         onPress={() => onNavigate('Settings')}
-        color={currentTab === 'Settings' ? theme.primary : theme.secondaryText} 
+        color={currentTab === 'Settings' ? theme.primary : theme.secondaryText}
       />
     </View>
   );

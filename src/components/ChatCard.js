@@ -20,7 +20,7 @@ export default function ChatCard({ item, mode }) {
           <Text style={[styles.name, { color: theme.text }]}>{item.name}</Text>
           <Text style={[styles.time, { color: theme.secondaryText }]}>{item.time}</Text>
         </View>
-        
+
         <View style={styles.row}>
           <Text style={[styles.message, { color: theme.secondaryText }]} numberOfLines={1}>
             {item.message}
@@ -38,11 +38,11 @@ export default function ChatCard({ item, mode }) {
 
 const styles = StyleSheet.create({
   card: { flexDirection: 'row', paddingHorizontal: 20, marginBottom: 20, alignItems: 'center' },
-  avatar: { width: 60, height: 60, borderRadius: 30 },
-  onlineDot: { 
-    position: 'absolute', bottom: 2, right: 2, 
-    width: 14, height: 14, borderRadius: 7, 
-    backgroundColor: '#00b894', borderWidth: 2 
+  avatar: { width: 60, height: 60, borderRadius: 30, borderWidth: 1, borderColor: '#ccc' },
+  onlineDot: {
+    position: 'absolute', bottom: 2, right: 2,
+    width: 14, height: 14, borderRadius: 7,
+    backgroundColor: '#00b894', borderWidth: 2
   },
   content: { flex: 1, marginLeft: 15 },
   row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
