@@ -4,12 +4,12 @@ import { View, TextInput, StyleSheet } from 'react-native';
 import { Search } from 'lucide-react-native';
 import { useTheme } from '../hooks/useTheme';
 
-export default function SearchBar() {
+export default function SearchBar({ style }) {
   const theme = useTheme();
   return (
-    <View style={[styles.container, { backgroundColor: theme.searchBar }]}>
-      <TextInput 
-        placeholder="Search Chat" 
+    <View style={[styles.container, { backgroundColor: theme.searchBar }, style]}>
+      <TextInput
+        placeholder="Search Chat"
         placeholderTextColor={theme.secondaryText}
         style={[styles.input, { color: theme.text }]}
       />

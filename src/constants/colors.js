@@ -2,7 +2,7 @@
 export const Colors = {
   light: {
     background: '#FFFFFF',
-    surface: '#FFFFF',       // Light grey-green tint
+    surface: '#FFFFFF',       // Light grey-green tint
     text: '#050a08',          // Dark text
     secondaryText: '#707070',
     primary: '#10ac84',       // Your signature green

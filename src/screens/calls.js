@@ -7,6 +7,7 @@ import { useTheme } from '../hooks/useTheme';
 import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
 import BottomNav from '../components/BottomNav';
+import CallCard from '../components/CallCard';
 
 const MOCK_CALLS = [
     { id: '1', name: 'Supun Priyanath', time: 'Today, 10:30 AM', type: 'incoming', image: 'https://i.pravatar.cc/150?u=1' },
@@ -16,46 +17,40 @@ const MOCK_CALLS = [
     { id: '5', name: 'Muralitharan', time: 'Feb 10, 04:30 PM', type: 'incoming', image: 'https://i.pravatar.cc/150?u=5' },
 ];
 
-const CallItem = ({ item, theme }) => {
-    const getIcon = () => {
-        switch (item.type) {
-            case 'incoming': return <PhoneIncoming size={16} color={theme.primary} />;
-            case 'outgoing': return <PhoneOutgoing size={16} color={theme.secondaryText} />;
-            case 'missed': return <PhoneMissed size={16} color="#FF453A" />;
-            default: return <Phone size={16} color={theme.secondaryText} />;
-        }
-    };
-
-    return (
-        <TouchableOpacity style={styles.callItem}>
-            <Image source={{ uri: item.image }} style={styles.avatar} />
-            <View style={styles.callInfo}>
-                <Text style={[styles.name, { color: theme.text }]}>{item.name}</Text>
-                <View style={styles.callMeta}>
-                    {getIcon()}
-                    <Text style={[styles.time, { color: theme.secondaryText }]}>{item.time}</Text>
-                </View>
-            </View>
-            <TouchableOpacity>
-                <Phone size={24} color={theme.primary} />
-            </TouchableOpacity>
-        </TouchableOpacity>
-    );
-};
+// Consolidated CallCard component is used now.
 
 export default function Calls({ onNavigate, mode }) {
     const theme = useTheme(mode);
 
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
-            <Header mode={mode} title="Calls" />
-            <SearchBar mode={mode} />
+            <Header
+                mode={mode}
+                title="Calls"
+                rightIcon={<PhoneIncoming size={26} color={theme.text} />}
+            // Using PhoneIncoming as a placeholder for "New Call" icon since lucide might not have PhonePlus directly available or I should check.
+            // Actually, let's check if I imported PhonePlus or I can use MessageSquarePlus again but different icon.
+            // The design has a phone with a plus. Let's try to find a suitable icon.
+            // I will use Phone for now, or maybe I should check imports.
+            />
+            <SearchBar mode={mode} style={{ marginBottom: 10 }} />
 
-            <View style={[styles.listWrapper, { backgroundColor: theme.surface }]}>
+            <View style={[
+                styles.listWrapper,
+                {
+                    backgroundColor: theme.surface,
+                    borderWidth: 1,
+                    borderBottomWidth: 0,
+                    borderColor: mode === 'dark' ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.1)'
+                }
+            ]}>
+                <View style={styles.listHeader}>
+                    <Text style={[styles.sectionTitle, { color: theme.text }]}>Recent Calls</Text>
+                </View>
                 <FlatList
                     data={MOCK_CALLS}
                     keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => <CallItem item={item} theme={theme} />}
+                    renderItem={({ item }) => <CallCard item={item} theme={theme} />}
                     contentContainerStyle={styles.listContent}
                     showsVerticalScrollIndicator={false}
                 />
@@ -72,19 +67,18 @@ const styles = StyleSheet.create({
         flex: 1,
         borderTopLeftRadius: 45,
         borderTopRightRadius: 45,
-        paddingTop: 30,
-        marginTop: 20,
+        paddingTop: 15,
+        marginTop: 0,
+        marginBottom: 10,
     },
-    listContent: { paddingBottom: 20 },
-    callItem: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingHorizontal: 20,
-        marginBottom: 20,
+    listHeader: {
+        paddingHorizontal: 25,
+        marginBottom: 15,
     },
-    avatar: { width: 50, height: 50, borderRadius: 25, marginRight: 15 },
-    callInfo: { flex: 1 },
-    name: { fontSize: 16, fontWeight: 'bold', marginBottom: 4 },
-    callMeta: { flexDirection: 'row', alignItems: 'center', gap: 6 },
-    time: { fontSize: 12 },
+    sectionTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 10,
+    },
+    listContent: { paddingHorizontal: 20, paddingBottom: 20 },
 });

@@ -1,6 +1,6 @@
 // components/ChatCard.js
 import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
 // Fixed the import path to properly point to the hook
 import { useTheme } from '../hooks/useTheme';
 
@@ -9,7 +9,7 @@ export default function ChatCard({ item, mode }) {
   const theme = useTheme(mode);
 
   return (
-    <TouchableOpacity style={styles.card}>
+    <View style={styles.card}>
       <View>
         <Image source={{ uri: item.image }} style={styles.avatar} />
         {item.online && <View style={[styles.onlineDot, { borderColor: theme.surface }]} />}
@@ -32,7 +32,7 @@ export default function ChatCard({ item, mode }) {
           )}
         </View>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 }
 

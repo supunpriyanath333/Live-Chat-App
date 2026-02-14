@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList} from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../hooks/useTheme';
 
@@ -18,7 +18,7 @@ const MOCK_CHATS = [
 ];
 
 // Added 'mode' prop to the arguments to catch the theme state from App.js
-export default function Home({ onNavigate, mode }) {
+export default function Home({ onNavigate, onOpenChat, mode }) {
   // Pass 'mode' into useTheme so it updates when you toggle the switch
   const theme = useTheme(mode);
 
@@ -38,12 +38,24 @@ export default function Home({ onNavigate, mode }) {
       </View>
 
       {/* Curved Chat List Container */}
-      <View style={[styles.listWrapper, { backgroundColor: theme.surface }]}>
+      <View style={[
+        styles.listWrapper,
+        {
+          backgroundColor: theme.surface,
+          borderWidth: 1,
+          borderBottomWidth: 0,
+          borderColor: mode === 'dark' ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.1)' // Modern subtle border
+        }
+      ]}>
         <FlatList
           data={MOCK_CHATS}
           keyExtractor={(item) => item.id}
           // Passed mode to ChatCard
-          renderItem={({ item }) => <ChatCard item={item} mode={mode} />}
+          renderItem={({ item }) => (
+            <TouchableOpacity onPress={() => onOpenChat(item)}>
+              <ChatCard item={item} mode={mode} />
+            </TouchableOpacity>
+          )}
           contentContainerStyle={styles.listContent}
           showsVerticalScrollIndicator={false}
         />

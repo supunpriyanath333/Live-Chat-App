@@ -5,7 +5,7 @@ import { MessageSquarePlus } from 'lucide-react-native';
 import { useTheme } from '../hooks/useTheme';
 
 // Added 'mode' prop to the arguments
-export default function Header({ mode, title }) {
+export default function Header({ mode, title, rightIcon }) {
   // Pass 'mode' into useTheme so it updates when you toggle the switch
   const theme = useTheme(mode);
 
@@ -16,7 +16,7 @@ export default function Header({ mode, title }) {
         style={styles.profilePic}
       />
       <Text style={[styles.headerTitle, { color: theme.text }]}>{title || 'Chats'}</Text>
-      <MessageSquarePlus color={theme.text} size={28} />
+      {rightIcon ? rightIcon : <MessageSquarePlus color={theme.text} size={28} />}
     </View>
   );
 }
