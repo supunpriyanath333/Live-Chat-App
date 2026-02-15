@@ -10,11 +10,11 @@ import ChatCard from '../components/ChatCard';
 import BottomNav from '../components/BottomNav';
 
 const MOCK_CHATS = [
-  { id: '1', name: 'Supun Priyanath', message: 'I am coming to outside', time: '22:31', unread: 2, online: true, image: 'https://i.pravatar.cc/150?u=1' },
-  { id: '2', name: 'Princess', message: 'Me ane matanm ba katha karanna..', time: '20:46', unread: 4, online: true, image: 'https://i.pravatar.cc/150?u=2' },
-  { id: '3', name: 'Kusal Mendis', message: 'Ane palayan yanna', time: '10.56', unread: 0, online: false, image: 'https://i.pravatar.cc/150?u=3' },
-  { id: '4', name: 'Keyara Fernando', message: 'Hii.. Kohomathe..', time: '1 day ago', unread: 0, online: false, image: 'https://i.pravatar.cc/150?u=4' },
-  { id: '5', name: 'Muralitharan', message: 'Mage mathe eka baa..', time: '5 days ago', unread: 0, online: true, image: 'https://i.pravatar.cc/150?u=5' },
+  { id: '1', name: 'Supun Priyanath', message: 'I am coming to outside', time: '22:31', unread: 2, online: true, image: 'https://i.pravatar.cc/150?u=1', isMe: false },
+  { id: '2', name: 'Princess', message: 'Me ane matanm ba katha karanna..', time: '20:46', unread: 4, online: true, image: 'https://i.pravatar.cc/150?u=2', isMe: false },
+  { id: '3', name: 'Kusal Mendis', message: 'Ane palayan yanna', time: '10.56', unread: 0, online: false, image: 'https://i.pravatar.cc/150?u=3', isMe: true, status: 'seen' },
+  { id: '4', name: 'Keyara Fernando', message: 'Hii.. Kohomathe..', time: '1 day ago', unread: 0, online: false, image: 'https://i.pravatar.cc/150?u=4', isMe: false },
+  { id: '5', name: 'Muralitharan', message: 'Mage mathe eka baa..', time: '5 days ago', unread: 0, online: true, image: 'https://i.pravatar.cc/150?u=5', isMe: true, status: 'delivered' },
 ];
 
 // Added 'mode' prop to the arguments to catch the theme state from App.js

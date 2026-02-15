@@ -1,6 +1,7 @@
 // components/ChatCard.js
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
+import { CheckCheck } from 'lucide-react-native';
 // Fixed the import path to properly point to the hook
 import { useTheme } from '../hooks/useTheme';
 
@@ -25,11 +26,20 @@ export default function ChatCard({ item, mode }) {
           <Text style={[styles.message, { color: theme.secondaryText }]} numberOfLines={1}>
             {item.message}
           </Text>
-          {item.unread > 0 && (
-            <View style={[styles.badge, { backgroundColor: theme.primary }]}>
-              <Text style={styles.badgeText}>{item.unread}</Text>
-            </View>
-          )}
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            {item.isMe && (
+              <CheckCheck
+                size={16}
+                color={item.status === 'seen' ? theme.primary : theme.secondaryText}
+                style={{ marginLeft: 10 }}
+              />
+            )}
+            {item.unread > 0 && (
+              <View style={[styles.badge, { backgroundColor: theme.primary, marginLeft: 10 }]}>
+                <Text style={styles.badgeText}>{item.unread}</Text>
+              </View>
+            )}
+          </View>
         </View>
       </View>
     </View>
