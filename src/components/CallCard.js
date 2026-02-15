@@ -1,12 +1,13 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { PhoneIncoming, PhoneOutgoing, PhoneMissed, Phone, Video, MessageSquare } from 'lucide-react-native';
+import { GlobalStyles } from '../constants/globalStyles';
 
 export default function CallCard({ item, theme }) {
     const getIcon = () => {
         switch (item.type) {
             case 'incoming': return <PhoneIncoming size={16} color="#00b894" />; // Green
-            case 'outgoing': return <PhoneOutgoing size={16} color={theme.secondaryText} />; // Gray
+            case 'outgoing': return <PhoneOutgoing size={16} color="#1e48c7ff" />; // Gray
             case 'missed': return <PhoneMissed size={16} color="#FF453A" />; // Red
             default: return <Phone size={16} color={theme.secondaryText} />;
         }
@@ -15,7 +16,7 @@ export default function CallCard({ item, theme }) {
     return (
         <View style={styles.card}>
             <TouchableOpacity style={styles.infoContainer}>
-                <Image source={{ uri: item.image }} style={styles.avatar} />
+                <Image source={{ uri: item.image }} style={[styles.avatar, { borderColor: theme.theirAvatarBorder }]} />
                 <View style={styles.textContainer}>
                     <Text style={[styles.name, { color: theme.text }]}>{item.name}</Text>
                     <View style={styles.metaContainer}>
@@ -54,11 +55,8 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     avatar: {
-        width: 55,
-        height: 55,
-        borderRadius: 27.5,
-        borderWidth: 1,
-        borderColor: '#333', // Subtle border for dark mode
+        ...GlobalStyles.avatar,
+        ...GlobalStyles.avatarCall,
     },
     textContainer: {
         marginLeft: 15,

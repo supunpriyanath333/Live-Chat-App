@@ -15,6 +15,8 @@ export const Colors = {
     onPrimary: '#FFFFFF',
     onPrimarySurface: 'rgba(255,255,255,0.7)',
     onTheirBubble: '#FFFFFF', // Text on dark grey bubble
+    theirAvatarBorder: '#181515ee',
+    myAvatarBorder: '#100d0d5a',
   },
   dark: {
     background: '#050a08',    // Deep dark from your image
@@ -31,5 +33,7 @@ export const Colors = {
     onPrimary: '#FFFFFF',
     onPrimarySurface: 'rgba(255,255,255,0.7)',
     onTheirBubble: '#000000', // Text on white bubble
+    theirAvatarBorder: '#ffffffee',
+    myAvatarBorder: '#f7f0f0f3',
   },
 };

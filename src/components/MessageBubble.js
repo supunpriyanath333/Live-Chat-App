@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Play, CheckCheck, CornerDownRight, CornerDownLeft } from 'lucide-react-native';
 import { Colors } from '../constants/colors';
+import { GlobalStyles } from '../constants/globalStyles';
 
 const MessageBubble = ({ message, isMe, theme, mode }) => {
     const isAudio = message.type === 'audio';
@@ -19,7 +20,7 @@ const MessageBubble = ({ message, isMe, theme, mode }) => {
             {!isMe && message.avatar && (
                 <Image
                     source={typeof message.avatar === 'string' ? { uri: message.avatar } : message.avatar}
-                    style={styles.avatar}
+                    style={[styles.avatar, { borderColor: theme.theirAvatarBorder }]}
                 />
             )}
 
@@ -101,7 +102,7 @@ const MessageBubble = ({ message, isMe, theme, mode }) => {
             {isMe && message.avatar && (
                 <Image
                     source={typeof message.avatar === 'string' ? { uri: message.avatar } : message.avatar}
-                    style={styles.avatarMe}
+                    style={[styles.avatarMe, { borderColor: theme.myAvatarBorder }]}
                 />
             )}
         </View>
@@ -122,20 +123,14 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
     },
     avatar: {
-        width: 35,
-        height: 35,
-        borderRadius: 17.5,
+        ...GlobalStyles.avatar,
+        ...GlobalStyles.avatarSmall,
         marginRight: 8,
-        borderWidth: 1,
-        borderColor: '#ffffffee',
     },
     avatarMe: {
-        width: 35,
-        height: 35,
-        borderRadius: 17.5,
+        ...GlobalStyles.avatar,
+        ...GlobalStyles.avatarSmall,
         marginLeft: 8,
-        borderWidth: 1,
-        borderColor: '#ffffff5a',
     },
     replyGroup: {
         marginBottom: -12, // Overlapped by the main bubble

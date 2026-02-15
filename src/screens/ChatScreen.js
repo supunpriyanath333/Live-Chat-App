@@ -6,6 +6,7 @@ import { useTheme } from '../hooks/useTheme';
 
 import MessageBubble from '../components/MessageBubble';
 import ChatInput from '../components/ChatInput';
+import { GlobalStyles } from '../constants/globalStyles';
 
 const MY_AVATAR = require('../../assets/google.png');
 
@@ -83,7 +84,7 @@ export default function ChatScreen({ chat, onBack, mode }) {
                     <ArrowLeft size={24} color={theme.text} />
                 </TouchableOpacity>
 
-                <Image source={{ uri: chat.image }} style={styles.avatar} />
+                <Image source={{ uri: chat.image }} style={[styles.avatar, { borderColor: theme.theirAvatarBorder }]} />
 
                 <View style={styles.headerInfo}>
                     <Text style={[styles.headerName, { color: theme.text }]}>{chat.name}</Text>
@@ -139,9 +140,8 @@ const styles = StyleSheet.create({
         marginRight: 10,
     },
     avatar: {
-        width: 40,
-        height: 40,
-        borderRadius: 20,
+        ...GlobalStyles.avatar,
+        ...GlobalStyles.avatarMedium,
         marginRight: 10,
     },
     headerInfo: {

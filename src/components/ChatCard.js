@@ -4,6 +4,7 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 import { CheckCheck } from 'lucide-react-native';
 // Fixed the import path to properly point to the hook
 import { useTheme } from '../hooks/useTheme';
+import { GlobalStyles } from '../constants/globalStyles';
 
 export default function ChatCard({ item, mode }) {
   // Pass 'mode' into useTheme so the colors react to your toggle
@@ -12,7 +13,7 @@ export default function ChatCard({ item, mode }) {
   return (
     <View style={styles.card}>
       <View>
-        <Image source={{ uri: item.image }} style={styles.avatar} />
+        <Image source={{ uri: item.image }} style={[styles.avatar, { borderColor: theme.theirAvatarBorder }]} />
         {item.online && <View style={[styles.onlineDot, { borderColor: theme.surface }]} />}
       </View>
 
@@ -48,7 +49,7 @@ export default function ChatCard({ item, mode }) {
 
 const styles = StyleSheet.create({
   card: { flexDirection: 'row', paddingHorizontal: 20, marginBottom: 20, alignItems: 'center' },
-  avatar: { width: 60, height: 60, borderRadius: 30, borderWidth: 1, borderColor: '#ccc' },
+  avatar: { ...GlobalStyles.avatar, ...GlobalStyles.avatarLarge },
   onlineDot: {
     position: 'absolute', bottom: 2, right: 2,
     width: 14, height: 14, borderRadius: 7,
