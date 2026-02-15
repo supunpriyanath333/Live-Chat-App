@@ -19,7 +19,7 @@ const MOCK_CALLS = [
 
 // Consolidated CallCard component is used now.
 
-export default function Calls({ onNavigate, mode }) {
+export default function Calls({ onNavigate, mode, user }) {
     const theme = useTheme(mode);
 
     return (
@@ -27,6 +27,7 @@ export default function Calls({ onNavigate, mode }) {
             <Header
                 mode={mode}
                 title="Calls"
+                userAvatar={user?.avatar}
                 rightIcon={<PhoneIncoming size={26} color={theme.text} />}
             // Using PhoneIncoming as a placeholder for "New Call" icon since lucide might not have PhonePlus directly available or I should check.
             // Actually, let's check if I imported PhonePlus or I can use MessageSquarePlus again but different icon.

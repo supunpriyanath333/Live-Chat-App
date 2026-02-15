@@ -18,14 +18,19 @@ const MOCK_CHATS = [
 ];
 
 // Added 'mode' prop to the arguments to catch the theme state from App.js
-export default function Home({ onNavigate, onOpenChat, mode }) {
+export default function Home({ onNavigate, onOpenChat, onOpenContacts, mode, user }) {
   // Pass 'mode' into useTheme so it updates when you toggle the switch
   const theme = useTheme(mode);
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
       {/* Passed mode to Header and SearchBar */}
-      <Header mode={mode} />
+      <Header
+        mode={mode}
+        title="Chats"
+        userAvatar={user?.avatar}
+        onRightPress={onOpenContacts}
+      />
       <SearchBar mode={mode} />
 
       {/* Filter Tabs */}
