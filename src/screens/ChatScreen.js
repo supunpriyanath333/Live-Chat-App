@@ -7,9 +7,11 @@ import { useTheme } from '../hooks/useTheme';
 import MessageBubble from '../components/MessageBubble';
 import ChatInput from '../components/ChatInput';
 
+const MY_AVATAR = require('../../assets/google.png');
+
 const MOCK_MESSAGES = [
     { id: '1', text: 'Hii..', time: '08:31', isMe: false, avatar: 'https://i.pravatar.cc/150?u=4' },
-    { id: '2', text: 'Hii.. Keyara.', time: '10:32', isMe: true, read: true },
+    { id: '2', text: 'Hii.. Keyara.', time: '10:32', isMe: true, read: true, avatar: MY_AVATAR },
     { id: '3', text: 'How are you ?', time: '10:45', isMe: false, avatar: 'https://i.pravatar.cc/150?u=4' },
     {
         id: '4',
@@ -17,6 +19,7 @@ const MOCK_MESSAGES = [
         time: '11:00',
         isMe: true,
         read: true,
+        avatar: MY_AVATAR,
         replyTo: { author: 'Keyara Fernando', text: 'How are you ?' }
     },
     {
@@ -27,8 +30,8 @@ const MOCK_MESSAGES = [
         avatar: 'https://i.pravatar.cc/150?u=4',
         replyTo: { author: 'You', text: 'i am good..' }
     },
-    { id: '6', text: 'How about you?', time: '11:33', isMe: true, read: true },
-    { id: '7', text: 'I hope fine. noh?', time: '11:34', isMe: true, read: true },
+    { id: '6', text: 'How about you?', time: '11:33', isMe: true, read: true, avatar: MY_AVATAR },
+    { id: '7', text: 'I hope fine. noh?', time: '11:34', isMe: true, read: true, avatar: MY_AVATAR },
     {
         id: '8',
         text: 'Yes. fine',
@@ -51,7 +54,8 @@ const MOCK_MESSAGES = [
         duration: '00:10',
         time: '20:51',
         isMe: true,
-        read: true
+        read: true,
+        avatar: MY_AVATAR
     }
 ];
 
@@ -65,7 +69,8 @@ export default function ChatScreen({ chat, onBack, mode }) {
             text,
             time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
             isMe: true,
-            read: false
+            read: false,
+            avatar: MY_AVATAR
         };
         setMessages([...messages, newMessage]);
     };

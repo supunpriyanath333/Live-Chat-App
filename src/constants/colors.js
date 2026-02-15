@@ -8,14 +8,28 @@ export const Colors = {
     primary: '#10ac84',       // Your signature green
     border: '#E0E0E0',
     searchBar: '#F0F2F0',
+    theirBubble: '#524f4fff',
+    replyBubble: '#e7e4e4ff',
+    replyBorder: 'rgba(162, 162, 162, 0.21)',
+    connector: 'rgba(255,255,255,0.5)',
+    onPrimary: '#FFFFFF',
+    onPrimarySurface: 'rgba(255,255,255,0.7)',
+    onTheirBubble: '#FFFFFF', // Text on dark grey bubble
   },
   dark: {
     background: '#050a08',    // Deep dark from your image
     surface: '#0a120e',       // The list background
     text: '#FFFFFF',          // White text
-    secondaryText: '#888888',
+    secondaryText: '#969595ff',
     primary: '#10ac84',       // Same signature green
     border: '#1a1f1c',
     searchBar: '#1a1f1c',
+    theirBubble: '#ffffffcf',
+    replyBubble: '#333333',
+    replyBorder: 'rgba(255, 255, 255, 0.3)',
+    connector: 'rgba(255,255,255,0.5)',
+    onPrimary: '#FFFFFF',
+    onPrimarySurface: 'rgba(255,255,255,0.7)',
+    onTheirBubble: '#000000', // Text on white bubble
   },
 };
