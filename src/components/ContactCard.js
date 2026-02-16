@@ -19,13 +19,13 @@ export default function ContactCard({ item, theme, onMessage, onPhone, onVideo }
             </View>
 
             <View style={styles.actions}>
-                <TouchableOpacity onPress={() => onMessage?.(item)} style={styles.actionBtn}>
+                <TouchableOpacity onPress={() => onMessage?.(item)} style={GlobalStyles.actionBtn}>
                     <MessageSquare size={20} color={theme.primary} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => onPhone?.(item)} style={styles.actionBtn}>
+                <TouchableOpacity onPress={() => onPhone?.(item)} style={GlobalStyles.actionBtn}>
                     <Phone size={20} color={theme.primary} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => onVideo?.(item)} style={styles.actionBtn}>
+                <TouchableOpacity onPress={() => onVideo?.(item)} style={GlobalStyles.actionBtn}>
                     <Video size={20} color={theme.primary} />
                 </TouchableOpacity>
             </View>
@@ -77,13 +77,5 @@ const styles = StyleSheet.create({
     actions: {
         flexDirection: 'row',
         gap: 12,
-    },
-    actionBtn: {
-        width: 36,
-        height: 36,
-        borderRadius: 18,
-        backgroundColor: 'rgba(16, 172, 132, 0.1)',
-        justifyContent: 'center',
-        alignItems: 'center',
     },
 });

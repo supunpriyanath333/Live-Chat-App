@@ -21,5 +21,13 @@ export const GlobalStyles = {
         width: 55,
         height: 55,
         borderRadius: 27.5,
+    },
+    actionBtn: {
+        width: 36,
+        height: 36,
+        borderRadius: 18,
+        backgroundColor: 'rgba(16, 172, 132, 0.1)',
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 };

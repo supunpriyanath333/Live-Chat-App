@@ -27,14 +27,14 @@ export default function CallCard({ item, theme }) {
             </TouchableOpacity>
 
             <View style={styles.actions}>
-                <TouchableOpacity style={styles.actionBtn}>
-                    <Phone size={22} color={theme.secondaryText} />
+                <TouchableOpacity style={GlobalStyles.actionBtn}>
+                    <Phone size={20} color={theme.primary} />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.actionBtn}>
-                    <Video size={22} color={theme.secondaryText} />
+                <TouchableOpacity style={GlobalStyles.actionBtn}>
+                    <Video size={20} color={theme.primary} />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.actionBtn}>
-                    <MessageSquare size={22} color={theme.secondaryText} />
+                <TouchableOpacity style={GlobalStyles.actionBtn}>
+                    <MessageSquare size={20} color={theme.primary} />
                 </TouchableOpacity>
             </View>
         </View>
@@ -80,7 +80,4 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         gap: 15, // Space between action buttons
     },
-    actionBtn: {
-        padding: 5,
-    }
 });
