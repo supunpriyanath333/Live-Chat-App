@@ -79,7 +79,10 @@ export default function ChatScreen({ chat, onBack, mode }) {
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
             {/* Header */}
-            <View style={[styles.header, { borderBottomColor: 'rgba(255,255,255,0.1)' }]}>
+            <View style={[
+                styles.header,
+                { borderColor: mode === 'dark' ? 'rgba(183, 183, 183, 0.39)' : 'rgba(0, 0, 0, 0.17)' }
+            ]}>
                 <TouchableOpacity onPress={onBack} style={styles.backButton}>
                     <ArrowLeft size={24} color={theme.text} />
                 </TouchableOpacity>
@@ -119,7 +122,7 @@ export default function ChatScreen({ chat, onBack, mode }) {
             </View>
 
             {/* Input */}
-            <ChatInput onSend={handleSend} theme={theme} />
+            <ChatInput onSend={handleSend} theme={theme} mode={mode} />
         </SafeAreaView>
     );
 }
@@ -133,7 +136,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingHorizontal: 15,
         paddingVertical: 10,
-        borderBottomWidth: 1,
+        borderBottomLeftRadius: 25,
+        borderBottomRightRadius: 25,
+        borderWidth: 1,
+        borderTopWidth: 0,
     },
     backButton: {
         padding: 5,

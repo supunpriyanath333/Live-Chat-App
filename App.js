@@ -122,7 +122,14 @@ export default function App() {
           />
         );
       case 'Calls':
-        return <Calls onNavigate={setCurrentTab} mode={mode} user={user} />;
+        return (
+          <Calls
+            onNavigate={setCurrentTab}
+            mode={mode}
+            user={user}
+            onOpenContacts={() => setShowContacts(true)}
+          />
+        );
       case 'Settings':
         return (
           <Settings

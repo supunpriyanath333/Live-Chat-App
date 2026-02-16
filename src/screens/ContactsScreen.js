@@ -71,14 +71,11 @@ export default function ContactsScreen({ onBack, onOpenChat, onOpenAddContact, o
                 rightIcon={<UserPlus size={26} color={theme.text} />}
             />
 
-            <View style={styles.headerRow}>
-                <TouchableOpacity onPress={onBack} style={styles.backButton}>
-                    <ArrowLeft size={24} color={theme.text} />
-                </TouchableOpacity>
-                <Text style={[styles.title, { color: theme.text }]}>New Chat</Text>
-            </View>
-
             <SearchBar mode={mode} onChangeText={setSearchQuery} value={searchQuery} style={{ marginBottom: 10 }} />
+
+            <View style={styles.headerRow}>
+                <Text style={[styles.title, { color: theme.text }]}>My Contacts</Text>
+            </View>
 
             <View style={[
                 GlobalStyles.listWrapper,
@@ -131,7 +128,7 @@ const styles = StyleSheet.create({
         marginRight: 15,
     },
     title: {
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: 'bold',
     },
     listContent: {

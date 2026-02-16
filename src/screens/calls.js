@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { PhoneIncoming, PhoneOutgoing, PhoneMissed, Phone } from 'lucide-react-native';
+import { PhoneIncoming, PhoneOutgoing, PhoneMissed, Phone, Plus } from 'lucide-react-native';
 import { useTheme } from '../hooks/useTheme';
 
 import { GlobalStyles } from '../constants/globalStyles';
@@ -20,7 +20,7 @@ const MOCK_CALLS = [
 
 // Consolidated CallCard component is used now.
 
-export default function Calls({ onNavigate, mode, user }) {
+export default function Calls({ onNavigate, mode, user, onOpenContacts }) {
     const theme = useTheme(mode);
 
     return (
@@ -29,11 +29,22 @@ export default function Calls({ onNavigate, mode, user }) {
                 mode={mode}
                 title="Calls"
                 userAvatar={user?.avatar}
-                rightIcon={<PhoneIncoming size={26} color={theme.text} />}
-            // Using PhoneIncoming as a placeholder for "New Call" icon since lucide might not have PhonePlus directly available or I should check.
-            // Actually, let's check if I imported PhonePlus or I can use MessageSquarePlus again but different icon.
-            // The design has a phone with a plus. Let's try to find a suitable icon.
-            // I will use Phone for now, or maybe I should check imports.
+                rightIcon={
+                    <View style={{ position: 'relative' }}>
+                        <Phone size={26} color={theme.text} />
+                        <View style={{
+                            position: 'absolute',
+                            top: -2,
+                            right: -6,
+                            backgroundColor: theme.background,
+                            borderRadius: 6,
+                            padding: 1,
+                        }}>
+                            <Plus size={16} color={theme.text} strokeWidth={3} />
+                        </View>
+                    </View>
+                }
+                onRightPress={onOpenContacts}
             />
             <SearchBar mode={mode} style={{ marginBottom: 10 }} />
 
