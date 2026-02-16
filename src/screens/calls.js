@@ -37,14 +37,15 @@ export default function Calls({ onNavigate, mode, user }) {
             />
             <SearchBar mode={mode} style={{ marginBottom: 10 }} />
 
+            <View style={styles.listHeader}>
+                <Text style={[styles.sectionTitle, { color: theme.text }]}>Recent Calls</Text>
+            </View>
+
             <View style={[
                 GlobalStyles.listWrapper,
                 { backgroundColor: theme.surface },
                 GlobalStyles.listWrapperBorder(mode)
             ]}>
-                <View style={styles.listHeader}>
-                    <Text style={[styles.sectionTitle, { color: theme.text }]}>Recent Calls</Text>
-                </View>
                 <FlatList
                     data={MOCK_CALLS}
                     keyExtractor={(item) => item.id}
@@ -63,7 +64,8 @@ const styles = StyleSheet.create({
     container: { flex: 1 },
     listHeader: {
         paddingHorizontal: 25,
-        marginBottom: 15,
+        marginTop: 10,
+        marginBottom: 5,
     },
     sectionTitle: {
         fontSize: 18,

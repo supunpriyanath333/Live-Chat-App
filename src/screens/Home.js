@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../hooks/useTheme';
@@ -11,17 +11,26 @@ import ChatCard from '../components/ChatCard';
 import BottomNav from '../components/BottomNav';
 
 const MOCK_CHATS = [
-  { id: '1', name: 'Supun Priyanath', message: 'I am coming to outside', time: '22:31', unread: 2, online: true, image: 'https://i.pravatar.cc/150?u=1', isMe: false },
-  { id: '2', name: 'Princess', message: 'Me ane matanm ba katha karanna..', time: '20:46', unread: 4, online: true, image: 'https://i.pravatar.cc/150?u=2', isMe: false },
-  { id: '3', name: 'Kusal Mendis', message: 'Ane palayan yanna', time: '10.56', unread: 0, online: false, image: 'https://i.pravatar.cc/150?u=3', isMe: true, status: 'seen' },
-  { id: '4', name: 'Keyara Fernando', message: 'Hii.. Kohomathe..', time: '1 day ago', unread: 0, online: false, image: 'https://i.pravatar.cc/150?u=4', isMe: false },
-  { id: '5', name: 'Muralitharan', message: 'Mage mathe eka baa..', time: '5 days ago', unread: 0, online: true, image: 'https://i.pravatar.cc/150?u=5', isMe: true, status: 'delivered' },
+  { id: '1', name: 'Supun Priyanath', message: 'I am coming to outside', time: '22:31', unread: 2, online: true, image: 'https://i.pravatar.cc/150?u=1', isMe: false, isGroup: false },
+  { id: '2', name: 'Princess', message: 'Me ane matanm ba katha karanna..', time: '20:46', unread: 4, online: true, image: 'https://i.pravatar.cc/150?u=2', isMe: false, isGroup: false },
+  { id: '3', name: 'Kusal Mendis', message: 'Ane palayan yanna', time: '10.56', unread: 0, online: false, image: 'https://i.pravatar.cc/150?u=3', isMe: true, status: 'seen', isGroup: false },
+  { id: '4', name: 'Keyara Fernando', message: 'Hii.. Kohomathe..', time: '1 day ago', unread: 0, online: false, image: 'https://i.pravatar.cc/150?u=4', isMe: false, isGroup: false },
+  { id: '5', name: 'Muralitharan', message: 'Mage mathe eka baa..', time: '5 days ago', unread: 0, online: true, image: 'https://i.pravatar.cc/150?u=5', isMe: true, status: 'delivered', isGroup: false },
+  { id: '6', name: 'Dev Team', message: 'Guys, let\'s finish this.', time: '10:00 AM', unread: 1, online: false, image: 'https://i.pravatar.cc/150?u=6', isMe: false, isGroup: true },
 ];
 
 // Added 'mode' prop to the arguments to catch the theme state from App.js
 export default function Home({ onNavigate, onOpenChat, onOpenContacts, mode, user }) {
   // Pass 'mode' into useTheme so it updates when you toggle the switch
   const theme = useTheme(mode);
+  const [activeTab, setActiveTab] = useState('All');
+
+  const filteredChats = MOCK_CHATS.filter(chat => {
+    if (activeTab === 'All') return true;
+    if (activeTab === 'UNREAD') return chat.unread > 0;
+    if (activeTab === 'GROUPS') return chat.isGroup;
+    return true;
+  });
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
@@ -36,11 +45,26 @@ export default function Home({ onNavigate, onOpenChat, onOpenContacts, mode, use
 
       {/* Filter Tabs */}
       <View style={styles.tabContainer}>
-        <View style={[styles.activeTab, { backgroundColor: theme.primary }]}>
-          <Text style={styles.activeTabText}>All</Text>
-        </View>
-        <Text style={[styles.tabText, { color: theme.secondaryText }]}>UNREAD</Text>
-        <Text style={[styles.tabText, { color: theme.secondaryText }]}>GROUPS</Text>
+        <TouchableOpacity
+          style={[activeTab === 'All' ? styles.activeTab : styles.inactiveTab, { backgroundColor: activeTab === 'All' ? theme.primary : 'transparent' }]}
+          onPress={() => setActiveTab('All')}
+        >
+          <Text style={[styles.activeTabText, { color: activeTab === 'All' ? '#FFFFFF' : theme.secondaryText }]}>All</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[activeTab === 'UNREAD' ? styles.activeTab : styles.inactiveTab, { backgroundColor: activeTab === 'UNREAD' ? theme.primary : 'transparent' }]}
+          onPress={() => setActiveTab('UNREAD')}
+        >
+          <Text style={[styles.activeTabText, { color: activeTab === 'UNREAD' ? '#FFFFFF' : theme.secondaryText }]}>UNREAD</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[activeTab === 'GROUPS' ? styles.activeTab : styles.inactiveTab, { backgroundColor: activeTab === 'GROUPS' ? theme.primary : 'transparent' }]}
+          onPress={() => setActiveTab('GROUPS')}
+        >
+          <Text style={[styles.activeTabText, { color: activeTab === 'GROUPS' ? '#FFFFFF' : theme.secondaryText }]}>GROUPS</Text>
+        </TouchableOpacity>
       </View>
 
       {/* Curved Chat List Container */}
@@ -50,7 +74,7 @@ export default function Home({ onNavigate, onOpenChat, onOpenContacts, mode, use
         GlobalStyles.listWrapperBorder(mode)
       ]}>
         <FlatList
-          data={MOCK_CHATS}
+          data={filteredChats}
           keyExtractor={(item) => item.id}
           // Passed mode to ChatCard
           renderItem={({ item }) => (
@@ -82,11 +106,14 @@ const styles = StyleSheet.create({
   },
   activeTab: {
     paddingHorizontal: 18,
-    paddingVertical: 6,
+    paddingVertical: 8,
     borderRadius: 8,
   },
+  inactiveTab: {
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+  },
   activeTabText: {
-    color: '#FFFFFF',
     fontWeight: 'bold',
     fontSize: 15,
   },
