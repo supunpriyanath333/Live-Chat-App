@@ -8,7 +8,6 @@ export default function ContactCard({ item, theme, onMessage, onPhone, onVideo }
         <View style={styles.card}>
             <View style={[styles.avatarContainer, { borderColor: theme.theirAvatarBorder }]}>
                 <Image source={{ uri: item.image }} style={styles.avatar} />
-                {item.online && <View style={styles.onlineDot} />}
             </View>
 
             <View style={styles.info}>
@@ -50,17 +49,6 @@ const styles = StyleSheet.create({
     avatar: {
         width: '100%',
         height: '100%',
-    },
-    onlineDot: {
-        position: 'absolute',
-        bottom: 2,
-        right: 2,
-        width: 12,
-        height: 12,
-        borderRadius: 6,
-        backgroundColor: '#00b894',
-        borderWidth: 2,
-        borderColor: '#FFF',
     },
     info: {
         flex: 1,

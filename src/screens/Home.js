@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../hooks/useTheme';
 
 // Import the components we created
+import { GlobalStyles } from '../constants/globalStyles';
 import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
 import ChatCard from '../components/ChatCard';
@@ -44,13 +45,9 @@ export default function Home({ onNavigate, onOpenChat, onOpenContacts, mode, use
 
       {/* Curved Chat List Container */}
       <View style={[
-        styles.listWrapper,
-        {
-          backgroundColor: theme.surface,
-          borderWidth: 1,
-          borderBottomWidth: 0,
-          borderColor: mode === 'dark' ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.1)' // Modern subtle border
-        }
+        GlobalStyles.listWrapper,
+        { backgroundColor: theme.surface },
+        GlobalStyles.listWrapperBorder(mode)
       ]}>
         <FlatList
           data={MOCK_CHATS}
@@ -97,12 +94,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 15,
     letterSpacing: 0.5,
-  },
-  listWrapper: {
-    flex: 1,
-    borderTopLeftRadius: 45, // Creates the curved look from the UI
-    borderTopRightRadius: 45,
-    paddingTop: 30,
   },
   listContent: {
     paddingBottom: 20,

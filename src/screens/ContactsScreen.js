@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { ArrowLeft, UserPlus, Star } from 'lucide-react-native';
 import { useTheme } from '../hooks/useTheme';
 
+import { GlobalStyles } from '../constants/globalStyles';
 import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
 import ContactCard from '../components/ContactCard';
@@ -77,16 +78,12 @@ export default function ContactsScreen({ onBack, onOpenChat, onOpenAddContact, o
                 <Text style={[styles.title, { color: theme.text }]}>New Chat</Text>
             </View>
 
-            <SearchBar mode={mode} onChangeText={setSearchQuery} value={searchQuery} />
+            <SearchBar mode={mode} onChangeText={setSearchQuery} value={searchQuery} style={{ marginBottom: 10 }} />
 
             <View style={[
-                styles.listWrapper,
-                {
-                    backgroundColor: theme.surface,
-                    borderWidth: 1,
-                    borderBottomWidth: 0,
-                    borderColor: mode === 'dark' ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.1)'
-                }
+                GlobalStyles.listWrapper,
+                { backgroundColor: theme.surface },
+                GlobalStyles.listWrapperBorder(mode)
             ]}>
                 <SectionList
                     sections={sections}
@@ -136,13 +133,6 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 20,
         fontWeight: 'bold',
-    },
-    listWrapper: {
-        flex: 1,
-        borderTopLeftRadius: 45,
-        borderTopRightRadius: 45,
-        paddingTop: 10,
-        marginTop: 20,
     },
     listContent: {
         paddingBottom: 20,

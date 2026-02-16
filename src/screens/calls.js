@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { PhoneIncoming, PhoneOutgoing, PhoneMissed, Phone } from 'lucide-react-native';
 import { useTheme } from '../hooks/useTheme';
 
+import { GlobalStyles } from '../constants/globalStyles';
 import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
 import BottomNav from '../components/BottomNav';
@@ -37,13 +38,9 @@ export default function Calls({ onNavigate, mode, user }) {
             <SearchBar mode={mode} style={{ marginBottom: 10 }} />
 
             <View style={[
-                styles.listWrapper,
-                {
-                    backgroundColor: theme.surface,
-                    borderWidth: 1,
-                    borderBottomWidth: 0,
-                    borderColor: mode === 'dark' ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.1)'
-                }
+                GlobalStyles.listWrapper,
+                { backgroundColor: theme.surface },
+                GlobalStyles.listWrapperBorder(mode)
             ]}>
                 <View style={styles.listHeader}>
                     <Text style={[styles.sectionTitle, { color: theme.text }]}>Recent Calls</Text>
@@ -64,14 +61,6 @@ export default function Calls({ onNavigate, mode, user }) {
 
 const styles = StyleSheet.create({
     container: { flex: 1 },
-    listWrapper: {
-        flex: 1,
-        borderTopLeftRadius: 45,
-        borderTopRightRadius: 45,
-        paddingTop: 15,
-        marginTop: 0,
-        marginBottom: 10,
-    },
     listHeader: {
         paddingHorizontal: 25,
         marginBottom: 15,

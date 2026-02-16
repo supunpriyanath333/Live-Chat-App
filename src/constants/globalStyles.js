@@ -29,5 +29,17 @@ export const GlobalStyles = {
         backgroundColor: 'rgba(16, 172, 132, 0.1)',
         justifyContent: 'center',
         alignItems: 'center',
-    }
+    },
+    listWrapper: {
+        flex: 1,
+        borderTopLeftRadius: 45,
+        borderTopRightRadius: 45,
+        paddingTop: 30, // Using 30 from Home.js as it looks more spacious
+        marginTop: 0,
+    },
+    listWrapperBorder: (mode) => ({
+        borderWidth: 1,
+        borderBottomWidth: 0,
+        borderColor: mode === 'dark' ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.1)'
+    })
 };
