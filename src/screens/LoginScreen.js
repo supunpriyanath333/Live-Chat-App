@@ -63,8 +63,13 @@ export default function LoginScreen({ onSendOTP, mode }) {
 
                 <View style={styles.footerSection}>
                     <TouchableOpacity
-                        style={[styles.continueButton, { backgroundColor: theme.primary }]}
+                        style={[
+                            styles.continueButton,
+                            { backgroundColor: theme.primary },
+                            !email.trim() && { opacity: 0.5 }
+                        ]}
                         onPress={() => onSendOTP(email)}
+                        disabled={!email.trim()}
                     >
                         <Text style={styles.continueText}>Continue</Text>
                         <ArrowRight size={22} color="#FFF" />
