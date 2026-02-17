@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Mail, ArrowRight } from 'lucide-react-native';
 import { useTheme } from '../hooks/useTheme';
@@ -8,32 +8,48 @@ export default function LoginScreen({ onSendOTP, mode }) {
     const theme = useTheme(mode);
     const [email, setEmail] = useState('');
 
+    const isDark = mode === 'dark';
+
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={styles.content}
             >
-                <View style={styles.header}>
-                    <Text style={[styles.title, { color: theme.text }]}>Welcome to ChatHub</Text>
-                    <Text style={[styles.subtitle, { color: theme.secondaryText }]}>
-                        Enter your email to receive a verification code
-                    </Text>
+                <View style={styles.topSection}>
+                    <Text style={[styles.welcomeText, { color: theme.text }]}>WELCOME !</Text>
+                </View>
+
+                <View style={styles.brandingSection}>
+                    <Image
+                        source={require('../../assets/applogo.png')}
+                        style={styles.logo}
+                        resizeMode="contain"
+                    />
+                    <View style={styles.brandNameContainer}>
+                        <Text style={[styles.brandChat, { color: theme.primary }]}>Chat</Text>
+                        <Text style={[styles.brandNet, { color: theme.text }]}>Net</Text>
+                    </View>
                 </View>
 
                 <View style={[
-                    styles.inputContainer,
+                    styles.formContainer,
                     {
-                        backgroundColor: theme.surface,
-                        borderColor: mode === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)',
-                        borderWidth: 1
+                        borderColor: isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.1)',
+                        backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)'
                     }
                 ]}>
-                    <View style={styles.inputWrapper}>
-                        <Mail size={20} color={theme.secondaryText} style={styles.inputIcon} />
+                    <Text style={[styles.instructionText, { color: theme.text }]}>
+                        Enter Your Email Address To Login To{"\n"}ChatNet
+                    </Text>
+
+                    <View style={[
+                        styles.inputWrapper,
+                        { backgroundColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)' }
+                    ]}>
                         <TextInput
                             style={[styles.input, { color: theme.text }]}
-                            placeholder="name@email.com"
+                            placeholder="Example123@gmail.com"
                             placeholderTextColor={theme.secondaryText}
                             value={email}
                             onChangeText={setEmail}
@@ -41,21 +57,18 @@ export default function LoginScreen({ onSendOTP, mode }) {
                             autoCapitalize="none"
                             autoCorrect={false}
                         />
+                        <Mail size={20} color={theme.secondaryText} style={styles.inputIcon} />
                     </View>
-
-                    <TouchableOpacity
-                        style={[styles.button, { backgroundColor: theme.primary }]}
-                        onPress={() => onSendOTP(email)}
-                    >
-                        <Text style={styles.buttonText}>Continue</Text>
-                        <ArrowRight size={20} color="#FFF" />
-                    </TouchableOpacity>
                 </View>
 
-                <View style={styles.footer}>
-                    <Text style={[styles.footerText, { color: theme.secondaryText }]}>
-                        By continuing, you agree to our Terms and Privacy Policy
-                    </Text>
+                <View style={styles.footerSection}>
+                    <TouchableOpacity
+                        style={[styles.continueButton, { backgroundColor: theme.primary }]}
+                        onPress={() => onSendOTP(email)}
+                    >
+                        <Text style={styles.continueText}>Continue</Text>
+                        <ArrowRight size={22} color="#FFF" />
+                    </TouchableOpacity>
                 </View>
             </KeyboardAvoidingView>
         </SafeAreaView>
@@ -68,68 +81,93 @@ const styles = StyleSheet.create({
     },
     content: {
         flex: 1,
-        paddingHorizontal: 25,
-        justifyContent: 'center',
+        paddingHorizontal: 30,
+        justifyContent: 'space-between',
+        paddingVertical: 40,
     },
-    header: {
-        marginBottom: 40,
+    topSection: {
+        alignItems: 'center',
+        marginTop: 20,
     },
-    title: {
+    welcomeText: {
         fontSize: 32,
         fontWeight: 'bold',
-        marginBottom: 10,
-        letterSpacing: -0.5,
+        letterSpacing: 2,
     },
-    subtitle: {
-        fontSize: 16,
-        lineHeight: 24,
+    brandingSection: {
+        alignItems: 'center',
+        gap: 10,
     },
-    inputContainer: {
+    logo: {
+        width: 100,
+        height: 100,
+    },
+    brandNameContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    brandChat: {
+        fontSize: 34,
+        fontWeight: 'bold',
+    },
+    brandNet: {
+        fontSize: 34,
+        fontWeight: 'bold',
+        opacity: 0.8,
+    },
+    formContainer: {
+        borderWidth: 1.5,
+        borderRadius: 35,
         padding: 25,
-        borderRadius: 30,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 10 },
-        shadowOpacity: 0.1,
-        shadowRadius: 20,
-        elevation: 5,
+        width: '100%',
+        alignItems: 'center',
+        gap: 20,
+    },
+    instructionText: {
+        fontSize: 14,
+        fontWeight: '600',
+        textAlign: 'center',
+        lineHeight: 20,
+        letterSpacing: 0.5,
     },
     inputWrapper: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: 'rgba(0,0,0,0.05)',
-        borderRadius: 15,
+        borderRadius: 18,
         paddingHorizontal: 15,
-        marginBottom: 20,
         height: 55,
-    },
-    inputIcon: {
-        marginRight: 12,
+        width: '100%',
+        borderWidth: 1,
+        borderColor: 'rgba(255,255,255,0.1)',
     },
     input: {
         flex: 1,
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: '500',
     },
-    button: {
-        height: 55,
-        borderRadius: 15,
+    inputIcon: {
+        marginLeft: 10,
+    },
+    footerSection: {
+        width: '100%',
+        marginBottom: 20,
+    },
+    continueButton: {
+        height: 60,
+        borderRadius: 20,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: 10,
+        gap: 15,
+        elevation: 4,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 5,
     },
-    buttonText: {
+    continueText: {
         color: '#FFF',
         fontSize: 18,
         fontWeight: 'bold',
-    },
-    footer: {
-        marginTop: 40,
-        alignItems: 'center',
-    },
-    footerText: {
-        fontSize: 12,
-        textAlign: 'center',
-        lineHeight: 18,
     },
 });
