@@ -20,7 +20,7 @@ const MOCK_CHATS = [
 ];
 
 // Added 'mode' prop to the arguments to catch the theme state from App.js
-export default function Home({ onNavigate, onOpenChat, onOpenContacts, mode, user }) {
+export default function Home({ onNavigate, onOpenChat, onOpenContacts, onProfilePress, mode, user }) {
   // Pass 'mode' into useTheme so it updates when you toggle the switch
   const theme = useTheme(mode);
   const [activeTab, setActiveTab] = useState('All');
@@ -40,6 +40,7 @@ export default function Home({ onNavigate, onOpenChat, onOpenContacts, mode, use
         title="Chats"
         userAvatar={user?.avatar}
         onRightPress={onOpenContacts}
+        onProfilePress={onProfilePress}
       />
       <SearchBar mode={mode} />
 

@@ -16,48 +16,48 @@ export default function LoginScreen({ onSendOTP, mode }) {
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={styles.content}
             >
-                <View style={styles.topSection}>
-                    <Text style={[styles.welcomeText, { color: theme.text }]}>WELCOME !</Text>
-                </View>
+                <View style={styles.mainContent}>
+                    <View style={styles.topContainer}>
+                        <View style={styles.topSection}>
+                            <Text style={[styles.welcomeText, { color: theme.text }]}>WELCOME !</Text>
+                        </View>
 
-                <View style={styles.brandingSection}>
-                    <Image
-                        source={require('../../assets/applogo.png')}
-                        style={styles.logo}
-                        resizeMode="contain"
-                    />
-                    <View style={styles.brandNameContainer}>
-                        <Text style={[styles.brandChat, { color: theme.primary }]}>Chat</Text>
-                        <Text style={[styles.brandNet, { color: theme.text }]}>Net</Text>
+                        <View style={styles.brandingSection}>
+                            <Image
+                                source={require('../../assets/applogo.png')}
+                                style={styles.logo}
+                                resizeMode="contain"
+                            />
+                        </View>
                     </View>
-                </View>
-
-                <View style={[
-                    styles.formContainer,
-                    {
-                        borderColor: isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.1)',
-                        backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)'
-                    }
-                ]}>
-                    <Text style={[styles.instructionText, { color: theme.text }]}>
-                        Enter Your Email Address To Login To{"\n"}ChatNet
-                    </Text>
 
                     <View style={[
-                        styles.inputWrapper,
-                        { backgroundColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)' }
+                        styles.formContainer,
+                        {
+                            borderColor: isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.1)',
+                            backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)'
+                        }
                     ]}>
-                        <TextInput
-                            style={[styles.input, { color: theme.text }]}
-                            placeholder="Example123@gmail.com"
-                            placeholderTextColor={theme.secondaryText}
-                            value={email}
-                            onChangeText={setEmail}
-                            keyboardType="email-address"
-                            autoCapitalize="none"
-                            autoCorrect={false}
-                        />
-                        <Mail size={20} color={theme.secondaryText} style={styles.inputIcon} />
+                        <Text style={[styles.instructionText, { color: theme.text }]}>
+                            Enter Your Email Address To Login To{"\n"}ChatNet
+                        </Text>
+
+                        <View style={[
+                            styles.inputWrapper,
+                            { backgroundColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)' }
+                        ]}>
+                            <TextInput
+                                style={[styles.input, { color: theme.text }]}
+                                placeholder="Example123@gmail.com"
+                                placeholderTextColor={theme.secondaryText}
+                                value={email}
+                                onChangeText={setEmail}
+                                keyboardType="email-address"
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                            />
+                            <Mail size={20} color={theme.secondaryText} style={styles.inputIcon} />
+                        </View>
                     </View>
                 </View>
 
@@ -88,7 +88,15 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingHorizontal: 30,
         justifyContent: 'space-between',
-        paddingVertical: 40,
+        paddingVertical: 100,
+    },
+    mainContent: {
+        width: '100%',
+        gap: 30,
+    },
+    topContainer: {
+        alignItems: 'center',
+        gap: 20,
     },
     topSection: {
         alignItems: 'center',
@@ -101,15 +109,10 @@ const styles = StyleSheet.create({
     },
     brandingSection: {
         alignItems: 'center',
-        gap: 10,
     },
     logo: {
-        width: 100,
+        width: 200,
         height: 100,
-    },
-    brandNameContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
     },
     brandChat: {
         fontSize: 34,

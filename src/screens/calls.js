@@ -20,7 +20,7 @@ const MOCK_CALLS = [
 
 // Consolidated CallCard component is used now.
 
-export default function Calls({ onNavigate, mode, user, onOpenContacts }) {
+export default function Calls({ onNavigate, mode, user, onOpenContacts, onProfilePress }) {
     const theme = useTheme(mode);
 
     return (
@@ -45,6 +45,7 @@ export default function Calls({ onNavigate, mode, user, onOpenContacts }) {
                     </View>
                 }
                 onRightPress={onOpenContacts}
+                onProfilePress={onProfilePress}
             />
             <SearchBar mode={mode} style={{ marginBottom: 10 }} />
 

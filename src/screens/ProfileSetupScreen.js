@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Camera, Check } from 'lucide-react-native';
+import { Camera, ArrowRight } from 'lucide-react-native';
 import { useTheme } from '../hooks/useTheme';
-import { GlobalStyles } from '../constants/globalStyles';
 
 export default function ProfileSetupScreen({ onComplete, mode }) {
     const theme = useTheme(mode);
     const [name, setName] = useState('');
-
-    // Default placeholder avatar
+    const [bio, setBio] = useState('');
     const [avatar, setAvatar] = useState('https://i.pravatar.cc/150?u=my_new_profile');
+
+    const isDark = mode === 'dark';
+
+    const handleBioChange = (text) => {
+        if (text.length <= 50) {
+            setBio(text);
+        }
+    };
 
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
@@ -18,57 +24,91 @@ export default function ProfileSetupScreen({ onComplete, mode }) {
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={styles.content}
             >
-                <View style={styles.header}>
-                    <Text style={[styles.title, { color: theme.text }]}>Setup Profile</Text>
-                    <Text style={[styles.subtitle, { color: theme.secondaryText }]}>
-                        How would you like to be seen by others?
-                    </Text>
-                </View>
-
-                <View style={styles.avatarContainer}>
-                    <View style={[
-                        styles.avatarWrapper,
-                        { borderColor: theme.myAvatarBorder, borderWidth: 2 }
-                    ]}>
-                        <Image source={{ uri: avatar }} style={styles.avatar} />
-                        <TouchableOpacity
-                            style={[styles.cameraButton, { backgroundColor: theme.primary }]}
-                            activeOpacity={0.8}
-                        >
-                            <Camera size={20} color="#FFF" />
-                        </TouchableOpacity>
-                    </View>
-                </View>
-
-                <View style={[
-                    styles.inputContainer,
-                    {
-                        backgroundColor: theme.surface,
-                        borderColor: mode === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)',
-                        borderWidth: 1
-                    }
-                ]}>
-                    <Text style={[styles.label, { color: theme.secondaryText }]}>YOUR NAME</Text>
-                    <TextInput
-                        style={[styles.input, { color: theme.text, borderBottomColor: theme.primary }]}
-                        placeholder="Enter your name"
-                        placeholderTextColor={theme.secondaryText}
-                        value={name}
-                        onChangeText={setName}
-                    />
-                </View>
-
-                <TouchableOpacity
-                    style={[
-                        styles.doneButton,
-                        { backgroundColor: name ? theme.primary : theme.secondaryText + '40' }
-                    ]}
-                    onPress={() => onComplete({ name, avatar })}
-                    disabled={!name}
+                <ScrollView
+                    contentContainerStyle={styles.scrollContent}
+                    showsVerticalScrollIndicator={false}
                 >
-                    <Text style={styles.doneButtonText}>Finish Setup</Text>
-                    <Check size={20} color="#FFF" />
-                </TouchableOpacity>
+                    <View style={styles.topSection}>
+                        <Text style={[styles.welcomeText, { color: theme.text }]}>Hii..!</Text>
+                        <Text style={[styles.subtitle, { color: theme.text }]}>
+                            It looks like you are a new user to ChatNet.{"\n"}
+                            Set up your profile the way you want{"\n"}
+                            others to see you.
+                        </Text>
+                    </View>
+
+                    <View style={[
+                        styles.formContainer,
+                        {
+                            borderColor: isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.1)',
+                            backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)'
+                        }
+                    ]}>
+                        <View style={styles.avatarContainer}>
+                            <View style={[styles.avatarWrapper, { borderColor: theme.primary, borderWidth: 1 }]}>
+                                <Image source={{ uri: avatar }} style={styles.avatar} />
+                                <TouchableOpacity
+                                    style={[styles.cameraButton, { backgroundColor: theme.primary }]}
+                                    activeOpacity={0.8}
+                                >
+                                    <Camera size={18} color="#FFF" />
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+
+                        <View style={styles.inputGroup}>
+                            <Text style={[styles.label, { color: theme.text }]}>Your Name</Text>
+                            <View style={[
+                                styles.inputWrapper,
+                                { backgroundColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)' }
+                            ]}>
+                                <TextInput
+                                    style={[styles.input, { color: theme.text }]}
+                                    placeholder="Enter your name"
+                                    placeholderTextColor={theme.secondaryText}
+                                    value={name}
+                                    onChangeText={setName}
+                                />
+                            </View>
+                        </View>
+
+                        <View style={styles.inputGroup}>
+                            <Text style={[styles.label, { color: theme.text }]}>Something About You</Text>
+                            <View style={[
+                                styles.bioWrapper,
+                                { backgroundColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)' }
+                            ]}>
+                                <TextInput
+                                    style={[styles.bioInput, { color: theme.text }]}
+                                    placeholder="Hii.. i am a Designer.."
+                                    placeholderTextColor={theme.secondaryText}
+                                    value={bio}
+                                    onChangeText={handleBioChange}
+                                    multiline
+                                    maxLength={50}
+                                />
+                                <Text style={[styles.charCount, { color: theme.secondaryText }]}>
+                                    {bio.length}/50
+                                </Text>
+                            </View>
+                        </View>
+                    </View>
+                </ScrollView>
+
+                <View style={styles.footerSection}>
+                    <TouchableOpacity
+                        style={[
+                            styles.continueButton,
+                            { backgroundColor: theme.primary },
+                            !name.trim() && { opacity: 0.5 }
+                        ]}
+                        onPress={() => onComplete({ name, avatar, bio })}
+                        disabled={!name.trim()}
+                    >
+                        <Text style={styles.continueText}>Continue</Text>
+                        <ArrowRight size={22} color="#FFF" />
+                    </TouchableOpacity>
+                </View>
             </KeyboardAvoidingView>
         </SafeAreaView>
     );
@@ -80,78 +120,124 @@ const styles = StyleSheet.create({
     },
     content: {
         flex: 1,
-        paddingHorizontal: 25,
-        paddingTop: 40,
+        paddingHorizontal: 30,
     },
-    header: {
+    scrollContent: {
+        paddingVertical: 40,
+    },
+    topSection: {
+        alignItems: 'center',
         marginBottom: 40,
     },
-    title: {
+    welcomeText: {
         fontSize: 32,
         fontWeight: 'bold',
-        marginBottom: 10,
-        letterSpacing: -0.5,
+        marginBottom: 20,
+        textAlign: 'center',
+        letterSpacing: 1,
     },
     subtitle: {
-        fontSize: 16,
-        lineHeight: 24,
+        fontSize: 14,
+        lineHeight: 22,
+        textAlign: 'center',
+        fontWeight: '600',
+        letterSpacing: 0.5,
+    },
+    formContainer: {
+        borderWidth: 1.5,
+        borderRadius: 35,
+        padding: 25,
+        width: '100%',
+        gap: 25,
     },
     avatarContainer: {
         alignItems: 'center',
-        marginBottom: 50,
+        marginBottom: 10,
     },
     avatarWrapper: {
         position: 'relative',
-        ...GlobalStyles.avatarLarge,
-        width: 120,
-        height: 120,
-        borderRadius: 60,
+        width: 130,
+        height: 130,
+        borderRadius: 65,
+        padding: 2,
     },
     avatar: {
         width: '100%',
         height: '100%',
-        borderRadius: 60,
+        borderRadius: 65,
+        backgroundColor: '#CCC',
     },
     cameraButton: {
         position: 'absolute',
-        bottom: 0,
-        right: 0,
-        width: 36,
-        height: 36,
-        borderRadius: 18,
+        bottom: 5,
+        right: 5,
+        width: 34,
+        height: 34,
+        borderRadius: 17,
         justifyContent: 'center',
         alignItems: 'center',
-        borderWidth: 3,
+        borderWidth: 2,
         borderColor: '#050a08',
     },
-    inputContainer: {
-        padding: 25,
-        borderRadius: 30,
-        marginBottom: 40,
+    inputGroup: {
+        gap: 10,
     },
     label: {
-        fontSize: 12,
-        fontWeight: 'bold',
-        letterSpacing: 1,
-        marginBottom: 10,
+        fontSize: 14,
+        fontWeight: '700',
+        marginLeft: 5,
+    },
+    inputWrapper: {
+        borderRadius: 18,
+        paddingHorizontal: 15,
+        height: 55,
+        justifyContent: 'center',
+        borderWidth: 1,
+        borderColor: 'rgba(255,255,255,0.1)',
     },
     input: {
-        fontSize: 18,
-        fontWeight: '600',
-        paddingVertical: 10,
-        borderBottomWidth: 2,
+        fontSize: 14,
+        fontWeight: '500',
     },
-    doneButton: {
+    bioWrapper: {
+        borderRadius: 18,
+        paddingHorizontal: 15,
+        paddingTop: 15,
+        paddingBottom: 10,
+        minHeight: 100,
+        borderWidth: 1,
+        borderColor: 'rgba(255,255,255,0.1)',
+    },
+    bioInput: {
+        fontSize: 14,
+        fontWeight: '500',
+        textAlignVertical: 'top',
+        flex: 1,
+    },
+    charCount: {
+        fontSize: 10,
+        fontWeight: 'bold',
+        textAlign: 'right',
+        marginTop: 5,
+    },
+    footerSection: {
+        width: '100%',
+        marginBottom: 20,
+    },
+    continueButton: {
         height: 60,
         borderRadius: 20,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: 12,
-        marginTop: 'auto',
-        marginBottom: 30,
+        gap: 15,
+        elevation: 4,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 5,
     },
-    doneButtonText: {
+    continueText: {
         color: '#FFF',
         fontSize: 18,
         fontWeight: 'bold',

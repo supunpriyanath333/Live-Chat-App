@@ -6,15 +6,15 @@ import { useTheme } from '../hooks/useTheme';
 import { Moon, Sun, ChevronLeft } from 'lucide-react-native';
 
 // Added onNavigate prop here
-export default function SettingsScreen({ onToggleTheme, isDarkMode, onNavigate }) {
-  const theme = useTheme();
+export default function SettingsScreen({ onToggleTheme, isDarkMode, onNavigate, onProfilePress, mode }) {
+  const theme = useTheme(mode);
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
       {/* Header with Back Button */}
       <View style={styles.header}>
-        <TouchableOpacity 
-          style={styles.backButton} 
+        <TouchableOpacity
+          style={styles.backButton}
           onPress={() => onNavigate('Home')}
         >
           <ChevronLeft color={theme.text} size={28} />
@@ -42,12 +42,12 @@ export default function SettingsScreen({ onToggleTheme, isDarkMode, onNavigate }
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  header: { 
-    padding: 20, 
-    marginBottom: 10, 
-    flexDirection: 'row', 
-    alignItems: 'center', 
-    gap: 10 
+  header: {
+    padding: 20,
+    marginBottom: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10
   },
   backButton: {
     marginLeft: -10, // Adjusts position to align with title better

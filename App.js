@@ -13,6 +13,7 @@ import OTPScreen from './src/screens/OTPScreen';
 import ProfileSetupScreen from './src/screens/ProfileSetupScreen';
 import ContactsScreen from './src/screens/ContactsScreen';
 import AddContactScreen from './src/screens/AddContactScreen';
+import ProfileScreen from './src/screens/ProfileScreen';
 
 export default function App() {
   // 1. Get the initial system theme (dark or light)
@@ -30,6 +31,7 @@ export default function App() {
   const [currentTab, setCurrentTab] = useState('Home');
   const [showContacts, setShowContacts] = useState(false);
   const [showAddContact, setShowAddContact] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
 
   // 5. State to manage active chat (for Chat Screen)
   const [activeChat, setActiveChat] = useState(null);
@@ -54,6 +56,12 @@ export default function App() {
   const handleProfileComplete = (profileData) => {
     setUser({ email, ...profileData });
     setAuthStep('app');
+  };
+
+  const handleLogout = () => {
+    setAuthStep('login');
+    setUser(null);
+    setShowProfile(false);
   };
 
   const renderContent = () => {
@@ -100,6 +108,17 @@ export default function App() {
       );
     }
 
+    if (showProfile) {
+      return (
+        <ProfileScreen
+          user={user}
+          onBack={() => setShowProfile(false)}
+          onLogout={handleLogout}
+          mode={mode}
+        />
+      );
+    }
+
     if (activeChat) {
       return (
         <ChatScreen
@@ -117,6 +136,7 @@ export default function App() {
             onNavigate={setCurrentTab}
             onOpenChat={setActiveChat}
             onOpenContacts={() => setShowContacts(true)}
+            onProfilePress={() => setShowProfile(true)}
             mode={mode}
             user={user}
           />
@@ -128,6 +148,7 @@ export default function App() {
             mode={mode}
             user={user}
             onOpenContacts={() => setShowContacts(true)}
+            onProfilePress={() => setShowProfile(true)}
           />
         );
       case 'Settings':
@@ -136,6 +157,7 @@ export default function App() {
             onNavigate={setCurrentTab}
             isDarkMode={isDarkMode}
             onToggleTheme={toggleTheme}
+            onProfilePress={() => setShowProfile(true)}
             mode={mode}
           />
         );

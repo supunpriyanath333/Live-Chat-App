@@ -6,7 +6,7 @@ import { useTheme } from '../hooks/useTheme';
 import { GlobalStyles } from '../constants/globalStyles';
 
 // Added 'mode' prop to the arguments
-export default function Header({ mode, title, rightIcon, userAvatar, onRightPress }) {
+export default function Header({ mode, title, rightIcon, userAvatar, onRightPress, onProfilePress }) {
   // Pass 'mode' into useTheme so it updates when you toggle the switch
   const theme = useTheme(mode);
 
@@ -17,25 +17,27 @@ export default function Header({ mode, title, rightIcon, userAvatar, onRightPres
 
   return (
     <View style={styles.header}>
-      <View style={[
-        styles.avatarContainer,
-        {
-          borderColor: theme.myAvatarBorder,
-          backgroundColor: theme.surface,
-          // Diagnostic: add a slight shadow
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.1,
-          shadowRadius: 4,
-          elevation: 3,
-        }
-      ]}>
-        <Image
-          source={avatarSource}
-          style={styles.profilePic}
-          resizeMode="cover"
-        />
-      </View>
+      <TouchableOpacity onPress={onProfilePress}>
+        <View style={[
+          styles.avatarContainer,
+          {
+            borderColor: theme.myAvatarBorder,
+            backgroundColor: theme.surface,
+            // Diagnostic: add a slight shadow
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.1,
+            shadowRadius: 4,
+            elevation: 3,
+          }
+        ]}>
+          <Image
+            source={avatarSource}
+            style={styles.profilePic}
+            resizeMode="cover"
+          />
+        </View>
+      </TouchableOpacity>
       <Text style={[styles.headerTitle, { color: theme.text }]}>{title || 'Chats'}</Text>
       <TouchableOpacity onPress={onRightPress}>
         {rightIcon ? rightIcon : <MessageSquarePlus color={theme.text} size={28} />}
