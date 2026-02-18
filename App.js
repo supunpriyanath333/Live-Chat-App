@@ -15,6 +15,7 @@ import ContactsScreen from './src/screens/ContactsScreen';
 import AddContactScreen from './src/screens/AddContactScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import VoiceCallScreen from './src/screens/VoiceCallScreen';
+import VideoCallScreen from './src/screens/VideoCallScreen';
 
 export default function App() {
   // 1. Get the initial system theme (dark or light)
@@ -39,6 +40,9 @@ export default function App() {
 
   // 6. State for active voice call
   const [activeCall, setActiveCall] = useState(null);
+
+  // 7. State for active video call
+  const [activeVideoCall, setActiveVideoCall] = useState(null);
 
   // Function to toggle the theme
   const toggleTheme = () => setIsDarkMode(!isDarkMode);
@@ -76,7 +80,25 @@ export default function App() {
     setActiveCall(null);
   };
 
+  const handleStartVideoCall = (contact) => {
+    setActiveVideoCall(contact);
+  };
+
+  const handleEndVideoCall = () => {
+    setActiveVideoCall(null);
+  };
+
   const renderContent = () => {
+    if (activeVideoCall) {
+      return (
+        <VideoCallScreen
+          contact={activeVideoCall}
+          onEndCall={handleEndVideoCall}
+          mode={mode}
+        />
+      );
+    }
+
     if (activeCall) {
       return (
         <VoiceCallScreen
@@ -127,6 +149,7 @@ export default function App() {
           mode={mode}
           user={user}
           onCall={handleStartCall}
+          onVideoCall={handleStartVideoCall}
         />
       );
     }
@@ -148,6 +171,7 @@ export default function App() {
           chat={activeChat}
           onBack={() => setActiveChat(null)}
           onCall={handleStartCall}
+          onVideoCall={handleStartVideoCall}
           mode={mode}
         />
       );
@@ -174,6 +198,7 @@ export default function App() {
             onOpenContacts={() => setShowContacts(true)}
             onProfilePress={() => setShowProfile(true)}
             onCall={handleStartCall}
+            onVideoCall={handleStartVideoCall}
           />
         );
       case 'Settings':

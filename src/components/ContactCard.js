@@ -3,7 +3,7 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { MessageSquare, Phone, Video } from 'lucide-react-native';
 import { GlobalStyles } from '../constants/globalStyles';
 
-export default function ContactCard({ item, theme, onMessage, onPhone, onVideo }) {
+export default function ContactCard({ item, theme, onMessage, onPhone, onVideo, onVideoCall }) {
     return (
         <View style={styles.card}>
             <View style={[styles.avatarContainer, { borderColor: theme.theirAvatarBorder }]}>
@@ -24,7 +24,7 @@ export default function ContactCard({ item, theme, onMessage, onPhone, onVideo }
                 <TouchableOpacity onPress={() => onPhone?.(item)} style={GlobalStyles.actionBtn}>
                     <Phone size={20} color={theme.primary} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => onVideo?.(item)} style={GlobalStyles.actionBtn}>
+                <TouchableOpacity onPress={() => onVideoCall?.(item)} style={GlobalStyles.actionBtn}>
                     <Video size={20} color={theme.primary} />
                 </TouchableOpacity>
             </View>

@@ -20,7 +20,7 @@ const MOCK_CALLS = [
 
 // Consolidated CallCard component is used now.
 
-export default function Calls({ onNavigate, mode, user, onOpenContacts, onProfilePress, onCall }) {
+export default function Calls({ onNavigate, mode, user, onOpenContacts, onProfilePress, onCall, onVideoCall }) {
     const theme = useTheme(mode);
 
     return (
@@ -61,7 +61,7 @@ export default function Calls({ onNavigate, mode, user, onOpenContacts, onProfil
                 <FlatList
                     data={MOCK_CALLS}
                     keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => <CallCard item={item} theme={theme} onCall={() => onCall?.(item)} />}
+                    renderItem={({ item }) => <CallCard item={item} theme={theme} onCall={() => onCall?.(item)} onVideoCall={() => onVideoCall?.(item)} />}
                     contentContainerStyle={styles.listContent}
                     showsVerticalScrollIndicator={false}
                 />
