@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingVi
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Mail, ArrowRight } from 'lucide-react-native';
 import { useTheme } from '../hooks/useTheme';
+import PrimaryButton from '../components/PrimaryButton';
 
 export default function LoginScreen({ onSendOTP, mode }) {
     const theme = useTheme(mode);
@@ -13,7 +14,7 @@ export default function LoginScreen({ onSendOTP, mode }) {
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
             <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                behavior={Platform.OS === 'ios' ? 'padding' : undefined}
                 style={styles.content}
             >
                 <View style={styles.mainContent}>
@@ -34,7 +35,7 @@ export default function LoginScreen({ onSendOTP, mode }) {
                     <View style={[
                         styles.formContainer,
                         {
-                            borderColor: isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.1)',
+                            borderColor: theme.border,
                             backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)'
                         }
                     ]}>
@@ -48,32 +49,26 @@ export default function LoginScreen({ onSendOTP, mode }) {
                         ]}>
                             <TextInput
                                 style={[styles.input, { color: theme.text }]}
-                                placeholder="Example123@gmail.com"
+                                placeholder="Enter your email"
                                 placeholderTextColor={theme.secondaryText}
                                 value={email}
                                 onChangeText={setEmail}
                                 keyboardType="email-address"
                                 autoCapitalize="none"
-                                autoCorrect={false}
                             />
-                            <Mail size={20} color={theme.secondaryText} style={styles.inputIcon} />
+                            <Mail size={20} color={theme.primary} style={styles.inputIcon} />
                         </View>
                     </View>
                 </View>
 
                 <View style={styles.footerSection}>
-                    <TouchableOpacity
-                        style={[
-                            styles.continueButton,
-                            { backgroundColor: theme.primary },
-                            !email.trim() && { opacity: 0.5 }
-                        ]}
+                    <PrimaryButton
+                        title="Continue"
                         onPress={() => onSendOTP(email)}
                         disabled={!email.trim()}
-                    >
-                        <Text style={styles.continueText}>Continue</Text>
-                        <ArrowRight size={22} color="#FFF" />
-                    </TouchableOpacity>
+                        icon={<ArrowRight size={22} color="#FFF" />}
+                        theme={theme}
+                    />
                 </View>
             </KeyboardAvoidingView>
         </SafeAreaView>
@@ -87,10 +82,10 @@ const styles = StyleSheet.create({
     content: {
         flex: 1,
         paddingHorizontal: 30,
-        justifyContent: 'space-between',
-        paddingVertical: 100,
+        paddingTop: 120,
     },
     mainContent: {
+        flex: 1,
         width: '100%',
         gap: 30,
     },
@@ -100,7 +95,6 @@ const styles = StyleSheet.create({
     },
     topSection: {
         alignItems: 'center',
-        marginTop: 20,
     },
     welcomeText: {
         fontSize: 32,
@@ -124,8 +118,8 @@ const styles = StyleSheet.create({
         opacity: 0.8,
     },
     formContainer: {
-        borderWidth: 1.5,
-        borderRadius: 35,
+        borderWidth: 1,
+        borderRadius: 15,
         padding: 25,
         width: '100%',
         alignItems: 'center',
@@ -141,12 +135,12 @@ const styles = StyleSheet.create({
     inputWrapper: {
         flexDirection: 'row',
         alignItems: 'center',
-        borderRadius: 18,
+        borderRadius: 15,
         paddingHorizontal: 15,
         height: 55,
         width: '100%',
         borderWidth: 1,
-        borderColor: 'rgba(255,255,255,0.1)',
+        borderColor: 'rgba(222, 219, 219, 0.51)',
     },
     input: {
         flex: 1,
@@ -158,24 +152,6 @@ const styles = StyleSheet.create({
     },
     footerSection: {
         width: '100%',
-        marginBottom: 20,
-    },
-    continueButton: {
-        height: 60,
-        borderRadius: 20,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 15,
-        elevation: 4,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.2,
-        shadowRadius: 5,
-    },
-    continueText: {
-        color: '#FFF',
-        fontSize: 18,
-        fontWeight: 'bold',
+        paddingBottom: 40,
     },
 });

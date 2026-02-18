@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, KeyboardAvo
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Camera, ArrowRight } from 'lucide-react-native';
 import { useTheme } from '../hooks/useTheme';
+import PrimaryButton from '../components/PrimaryButton';
 
 export default function ProfileSetupScreen({ onComplete, mode }) {
     const theme = useTheme(mode);
@@ -21,10 +22,11 @@ export default function ProfileSetupScreen({ onComplete, mode }) {
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
             <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                behavior={Platform.OS === 'ios' ? 'padding' : undefined}
                 style={styles.content}
             >
                 <ScrollView
+                    style={{ flex: 1 }}
                     contentContainerStyle={styles.scrollContent}
                     showsVerticalScrollIndicator={false}
                 >
@@ -96,18 +98,13 @@ export default function ProfileSetupScreen({ onComplete, mode }) {
                 </ScrollView>
 
                 <View style={styles.footerSection}>
-                    <TouchableOpacity
-                        style={[
-                            styles.continueButton,
-                            { backgroundColor: theme.primary },
-                            !name.trim() && { opacity: 0.5 }
-                        ]}
+                    <PrimaryButton
+                        title="Continue"
                         onPress={() => onComplete({ name, avatar, bio })}
                         disabled={!name.trim()}
-                    >
-                        <Text style={styles.continueText}>Continue</Text>
-                        <ArrowRight size={22} color="#FFF" />
-                    </TouchableOpacity>
+                        icon={<ArrowRight size={22} color="#FFF" />}
+                        theme={theme}
+                    />
                 </View>
             </KeyboardAvoidingView>
         </SafeAreaView>
@@ -121,13 +118,14 @@ const styles = StyleSheet.create({
     content: {
         flex: 1,
         paddingHorizontal: 30,
+        paddingTop: 40,
     },
     scrollContent: {
-        paddingVertical: 40,
+        paddingVertical: 60,
     },
     topSection: {
         alignItems: 'center',
-        marginBottom: 40,
+        marginBottom: 30,
     },
     welcomeText: {
         fontSize: 32,
@@ -144,8 +142,8 @@ const styles = StyleSheet.create({
         letterSpacing: 0.5,
     },
     formContainer: {
-        borderWidth: 1.5,
-        borderRadius: 35,
+        borderWidth: 1,
+        borderRadius: 15,
         padding: 25,
         width: '100%',
         gap: 25,
@@ -222,24 +220,6 @@ const styles = StyleSheet.create({
     },
     footerSection: {
         width: '100%',
-        marginBottom: 20,
-    },
-    continueButton: {
-        height: 60,
-        borderRadius: 20,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 15,
-        elevation: 4,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.2,
-        shadowRadius: 5,
-    },
-    continueText: {
-        color: '#FFF',
-        fontSize: 18,
-        fontWeight: 'bold',
+        paddingBottom: 40,
     },
 });
