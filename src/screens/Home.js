@@ -16,7 +16,6 @@ const MOCK_CHATS = [
   { id: '3', name: 'Kusal Mendis', message: 'Ane palayan yanna', time: '10.56', unread: 0, online: false, image: 'https://i.pravatar.cc/150?u=3', isMe: true, status: 'seen', isGroup: false },
   { id: '4', name: 'Keyara Fernando', message: 'Hii.. Kohomathe..', time: '1 day ago', unread: 0, online: false, image: 'https://i.pravatar.cc/150?u=4', isMe: false, isGroup: false },
   { id: '5', name: 'Muralitharan', message: 'Mage mathe eka baa..', time: '5 days ago', unread: 0, online: true, image: 'https://i.pravatar.cc/150?u=5', isMe: true, status: 'delivered', isGroup: false },
-  { id: '6', name: 'Dev Team', message: 'Guys, let\'s finish this.', time: '10:00 AM', unread: 1, online: false, image: 'https://i.pravatar.cc/150?u=6', isMe: false, isGroup: true },
 ];
 
 // Added 'mode' prop to the arguments to catch the theme state from App.js
@@ -28,7 +27,6 @@ export default function Home({ onNavigate, onOpenChat, onOpenContacts, onProfile
   const filteredChats = MOCK_CHATS.filter(chat => {
     if (activeTab === 'All') return true;
     if (activeTab === 'UNREAD') return chat.unread > 0;
-    if (activeTab === 'GROUPS') return chat.isGroup;
     return true;
   });
 
@@ -58,13 +56,6 @@ export default function Home({ onNavigate, onOpenChat, onOpenContacts, onProfile
           onPress={() => setActiveTab('UNREAD')}
         >
           <Text style={[styles.activeTabText, { color: activeTab === 'UNREAD' ? '#FFFFFF' : theme.secondaryText }]}>UNREAD</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[activeTab === 'GROUPS' ? styles.activeTab : styles.inactiveTab, { backgroundColor: activeTab === 'GROUPS' ? theme.primary : 'transparent' }]}
-          onPress={() => setActiveTab('GROUPS')}
-        >
-          <Text style={[styles.activeTabText, { color: activeTab === 'GROUPS' ? '#FFFFFF' : theme.secondaryText }]}>GROUPS</Text>
         </TouchableOpacity>
       </View>
 
