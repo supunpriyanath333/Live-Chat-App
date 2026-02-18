@@ -60,7 +60,7 @@ const MOCK_MESSAGES = [
     }
 ];
 
-export default function ChatScreen({ chat, onBack, mode }) {
+export default function ChatScreen({ chat, onBack, mode, onCall }) {
     const theme = useTheme(mode);
     const [messages, setMessages] = useState(MOCK_MESSAGES);
 
@@ -97,7 +97,7 @@ export default function ChatScreen({ chat, onBack, mode }) {
                 </View>
 
                 <View style={styles.headerActions}>
-                    <TouchableOpacity style={styles.actionButton}>
+                    <TouchableOpacity style={styles.actionButton} onPress={() => onCall?.(chat)}>
                         <Phone size={22} color={theme.text} />
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.actionButton}>

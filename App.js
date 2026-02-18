@@ -14,6 +14,7 @@ import ProfileSetupScreen from './src/screens/ProfileSetupScreen';
 import ContactsScreen from './src/screens/ContactsScreen';
 import AddContactScreen from './src/screens/AddContactScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
+import VoiceCallScreen from './src/screens/VoiceCallScreen';
 
 export default function App() {
   // 1. Get the initial system theme (dark or light)
@@ -35,6 +36,9 @@ export default function App() {
 
   // 5. State to manage active chat (for Chat Screen)
   const [activeChat, setActiveChat] = useState(null);
+
+  // 6. State for active voice call
+  const [activeCall, setActiveCall] = useState(null);
 
   // Function to toggle the theme
   const toggleTheme = () => setIsDarkMode(!isDarkMode);
@@ -64,7 +68,25 @@ export default function App() {
     setShowProfile(false);
   };
 
+  const handleStartCall = (contact) => {
+    setActiveCall(contact);
+  };
+
+  const handleEndCall = () => {
+    setActiveCall(null);
+  };
+
   const renderContent = () => {
+    if (activeCall) {
+      return (
+        <VoiceCallScreen
+          contact={activeCall}
+          onEndCall={handleEndCall}
+          mode={mode}
+        />
+      );
+    }
+
     if (authStep === 'login') {
       return <LoginScreen onSendOTP={handleSendOTP} mode={mode} />;
     }
@@ -104,6 +126,7 @@ export default function App() {
           }}
           mode={mode}
           user={user}
+          onCall={handleStartCall}
         />
       );
     }
@@ -124,6 +147,7 @@ export default function App() {
         <ChatScreen
           chat={activeChat}
           onBack={() => setActiveChat(null)}
+          onCall={handleStartCall}
           mode={mode}
         />
       );
@@ -149,6 +173,7 @@ export default function App() {
             user={user}
             onOpenContacts={() => setShowContacts(true)}
             onProfilePress={() => setShowProfile(true)}
+            onCall={handleStartCall}
           />
         );
       case 'Settings':

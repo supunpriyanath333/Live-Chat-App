@@ -3,7 +3,7 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { PhoneIncoming, PhoneOutgoing, PhoneMissed, Phone, Video, MessageSquare } from 'lucide-react-native';
 import { GlobalStyles } from '../constants/globalStyles';
 
-export default function CallCard({ item, theme }) {
+export default function CallCard({ item, theme, onCall }) {
     const getIcon = () => {
         switch (item.type) {
             case 'incoming': return <PhoneIncoming size={16} color="#00b894" />; // Green
@@ -27,7 +27,7 @@ export default function CallCard({ item, theme }) {
             </TouchableOpacity>
 
             <View style={styles.actions}>
-                <TouchableOpacity style={GlobalStyles.actionBtn}>
+                <TouchableOpacity style={GlobalStyles.actionBtn} onPress={onCall}>
                     <Phone size={20} color={theme.primary} />
                 </TouchableOpacity>
                 <TouchableOpacity style={GlobalStyles.actionBtn}>

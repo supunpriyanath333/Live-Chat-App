@@ -21,7 +21,7 @@ const MOCK_CONTACTS = [
     { id: '8', name: '100 - Emergency', status: 'Official Number', online: true, image: 'https://i.pravatar.cc/150?u=8' },
 ];
 
-export default function ContactsScreen({ onBack, onOpenChat, onOpenAddContact, onNavigate, mode, user }) {
+export default function ContactsScreen({ onBack, onOpenChat, onOpenAddContact, onNavigate, mode, user, onCall }) {
     const theme = useTheme(mode);
     const [searchQuery, setSearchQuery] = useState('');
 
@@ -90,7 +90,7 @@ export default function ContactsScreen({ onBack, onOpenChat, onOpenAddContact, o
                             item={item}
                             theme={theme}
                             onMessage={(contact) => onOpenChat(contact)}
-                            onPhone={() => { }}
+                            onPhone={(contact) => onCall?.(contact)}
                             onVideo={() => { }}
                         />
                     )}
