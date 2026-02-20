@@ -1,3 +1,5 @@
+import React from 'react';
+import { View, Image, StyleSheet } from 'react-native';
 import { Phone, PhoneOff } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../hooks/useTheme';
