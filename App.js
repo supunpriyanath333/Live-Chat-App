@@ -16,6 +16,7 @@ import AddContactScreen from './src/screens/AddContactScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import VoiceCallScreen from './src/screens/VoiceCallScreen';
 import VideoCallScreen from './src/screens/VideoCallScreen';
+import IncomingCallScreen from './src/screens/IncomingCallScreen';
 
 export default function App() {
   // 1. Get the initial system theme (dark or light)
@@ -43,6 +44,9 @@ export default function App() {
 
   // 7. State for active video call
   const [activeVideoCall, setActiveVideoCall] = useState(null);
+
+  // 8. State for incoming call
+  const [incomingCall, setIncomingCall] = useState(null);
 
   // Function to toggle the theme
   const toggleTheme = () => setIsDarkMode(!isDarkMode);
@@ -88,12 +92,39 @@ export default function App() {
     setActiveVideoCall(null);
   };
 
+  const handleAcceptCall = () => {
+    setActiveCall(incomingCall);
+    setIncomingCall(null);
+  };
+
+  const handleDeclineCall = () => {
+    setIncomingCall(null);
+  };
+
+  const handleTriggerIncomingCall = () => {
+    setIncomingCall({
+      name: 'Supun Priyanath',
+      image: 'https://avatars.githubusercontent.com/u/12345678?v=4', // Random avatar
+    });
+  };
+
   const renderContent = () => {
     if (activeVideoCall) {
       return (
         <VideoCallScreen
           contact={activeVideoCall}
           onEndCall={handleEndVideoCall}
+          mode={mode}
+        />
+      );
+    }
+
+    if (incomingCall) {
+      return (
+        <IncomingCallScreen
+          contact={incomingCall}
+          onAccept={handleAcceptCall}
+          onDecline={handleDeclineCall}
           mode={mode}
         />
       );
@@ -209,6 +240,7 @@ export default function App() {
             onToggleTheme={toggleTheme}
             onProfilePress={() => setShowProfile(true)}
             mode={mode}
+            onTriggerIncomingCall={handleTriggerIncomingCall}
           />
         );
       default:
