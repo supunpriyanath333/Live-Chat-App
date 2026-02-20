@@ -41,5 +41,41 @@ export const GlobalStyles = {
         borderWidth: 1,
         borderBottomWidth: 0,
         borderColor: mode === 'dark' ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.1)'
-    })
+    }),
+    call: {
+        accept: '#34C759',
+        decline: '#FF3B30',
+        end: '#FF3B30',
+        active: 'rgba(255,255,255,0.2)',
+        activeDark: 'rgba(0,0,0,0.2)',
+    },
+    callButton: {
+        width: 75,
+        height: 75,
+        borderRadius: 37.5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 5,
+        elevation: 8,
+    },
+    callControlLabel: {
+        marginTop: 15,
+        fontSize: 14,
+        fontWeight: '500',
+        textAlign: 'center',
+    },
+    callAvatarContainer: {
+        width: 140,
+        height: 140,
+        borderRadius: 70,
+        overflow: 'hidden',
+        borderWidth: 2,
+        marginBottom: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0,0,0,0.05)',
+    }
 };

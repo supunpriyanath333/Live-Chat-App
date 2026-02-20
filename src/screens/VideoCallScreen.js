@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
-import { PhoneOff, Mic, MicOff, Camera, CameraOff, SwitchCamera, User } from 'lucide-react-native';
+import { PhoneOff, Mic, MicOff, Camera, CameraOff, SwitchCamera } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../hooks/useTheme';
+import { GlobalStyles } from '../constants/globalStyles';
+import CallHeader from '../components/CallHeader';
+import CallControl from '../components/CallControl';
 
 const { width, height } = Dimensions.get('window');
 
@@ -65,34 +66,38 @@ export default function VideoCallScreen({ contact, onEndCall, mode }) {
 
             <SafeAreaView style={styles.uiOverlay}>
                 {/* Header Info */}
-                <View style={styles.header}>
-                    <Text style={styles.name}>{contact?.name || 'Unknown'}</Text>
-                    <Text style={styles.status}>{displayTime}</Text>
-                </View>
+                <CallHeader
+                    contact={contact}
+                    status={displayTime}
+                    theme={theme}
+                    mode={mode}
+                />
 
                 {/* Bottom Controls */}
                 <View style={styles.controlsBar}>
-                    <TouchableOpacity style={styles.controlBtn} onPress={() => { }}>
-                        <SwitchCamera size={24} color="#fff" />
-                    </TouchableOpacity>
+                    <CallControl
+                        onPress={() => { }}
+                        icon={SwitchCamera}
+                        backgroundColor="rgba(255,255,255,0.2)"
+                    />
 
-                    <TouchableOpacity
-                        style={[styles.controlBtn, isVideoOff && styles.activeControlBtn]}
+                    <CallControl
                         onPress={() => setIsVideoOff(!isVideoOff)}
-                    >
-                        {isVideoOff ? <CameraOff size={24} color="#fff" /> : <Camera size={24} color="#fff" />}
-                    </TouchableOpacity>
+                        icon={isVideoOff ? CameraOff : Camera}
+                        backgroundColor={isVideoOff ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.2)'}
+                    />
 
-                    <TouchableOpacity
-                        style={[styles.controlBtn, isMuted && styles.activeControlBtn]}
+                    <CallControl
                         onPress={() => setIsMuted(!isMuted)}
-                    >
-                        {isMuted ? <MicOff size={24} color="#fff" /> : <Mic size={24} color="#fff" />}
-                    </TouchableOpacity>
+                        icon={isMuted ? MicOff : Mic}
+                        backgroundColor={isMuted ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.2)'}
+                    />
 
-                    <TouchableOpacity style={styles.endCallBtn} onPress={onEndCall}>
-                        <PhoneOff size={28} color="#fff" />
-                    </TouchableOpacity>
+                    <CallControl
+                        onPress={onEndCall}
+                        icon={PhoneOff}
+                        backgroundColor={GlobalStyles.call.end}
+                    />
                 </View>
             </SafeAreaView>
         </View>
@@ -148,26 +153,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingVertical: 40,
     },
-    header: {
-        alignItems: 'center',
-        paddingTop: 20,
-    },
-    name: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: '#fff',
-        textShadowColor: 'rgba(0, 0, 0, 0.75)',
-        textShadowOffset: { width: -1, height: 1 },
-        textShadowRadius: 10,
-    },
-    status: {
-        fontSize: 16,
-        color: '#fff',
-        marginTop: 5,
-        textShadowColor: 'rgba(0, 0, 0, 0.75)',
-        textShadowOffset: { width: -1, height: 1 },
-        textShadowRadius: 10,
-    },
     controlsBar: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
@@ -177,24 +162,5 @@ const styles = StyleSheet.create({
         paddingVertical: 15,
         borderRadius: 40,
         marginBottom: 20,
-    },
-    controlBtn: {
-        width: 50,
-        height: 50,
-        borderRadius: 25,
-        backgroundColor: 'rgba(255,255,255,0.2)',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    activeControlBtn: {
-        backgroundColor: 'rgba(255,255,255,0.4)',
-    },
-    endCallBtn: {
-        width: 60,
-        height: 60,
-        borderRadius: 30,
-        backgroundColor: '#FF3B30',
-        justifyContent: 'center',
-        alignItems: 'center',
     },
 });
