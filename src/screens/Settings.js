@@ -6,7 +6,7 @@ import { useTheme } from '../hooks/useTheme';
 import { Moon, Sun, ChevronLeft } from 'lucide-react-native';
 
 // Added onNavigate prop here
-export default function SettingsScreen({ onToggleTheme, isDarkMode, onNavigate, onProfilePress, mode, onTriggerIncomingCall }) {
+export default function SettingsScreen({ onToggleTheme, isDarkMode, onNavigate, onProfilePress, mode, onTriggerIncomingCall, onTriggerIncomingVideoCall }) {
   const theme = useTheme(mode);
 
   return (
@@ -41,6 +41,14 @@ export default function SettingsScreen({ onToggleTheme, isDarkMode, onNavigate, 
         <TouchableOpacity style={styles.row} onPress={onTriggerIncomingCall}>
           <View style={styles.labelGroup}>
             <Text style={[styles.label, { color: theme.primary }]}>Test Incoming Call</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+
+      <View style={[styles.section, { backgroundColor: theme.surface, marginTop: 10 }]}>
+        <TouchableOpacity style={styles.row} onPress={onTriggerIncomingVideoCall}>
+          <View style={styles.labelGroup}>
+            <Text style={[styles.label, { color: theme.primary }]}>Test Incoming Video Call</Text>
           </View>
         </TouchableOpacity>
       </View>

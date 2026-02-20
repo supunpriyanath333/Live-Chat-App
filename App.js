@@ -17,6 +17,7 @@ import ProfileScreen from './src/screens/ProfileScreen';
 import VoiceCallScreen from './src/screens/VoiceCallScreen';
 import VideoCallScreen from './src/screens/VideoCallScreen';
 import IncomingCallScreen from './src/screens/IncomingCallScreen';
+import IncomingVideoCallScreen from './src/screens/IncomingVideoCallScreen';
 
 export default function App() {
   // 1. Get the initial system theme (dark or light)
@@ -47,6 +48,9 @@ export default function App() {
 
   // 8. State for incoming call
   const [incomingCall, setIncomingCall] = useState(null);
+
+  // 9. State for incoming video call
+  const [incomingVideoCall, setIncomingVideoCall] = useState(null);
 
   // Function to toggle the theme
   const toggleTheme = () => setIsDarkMode(!isDarkMode);
@@ -101,8 +105,24 @@ export default function App() {
     setIncomingCall(null);
   };
 
+  const handleAcceptVideoCall = () => {
+    setActiveVideoCall(incomingVideoCall);
+    setIncomingVideoCall(null);
+  };
+
+  const handleDeclineVideoCall = () => {
+    setIncomingVideoCall(null);
+  };
+
   const handleTriggerIncomingCall = () => {
     setIncomingCall({
+      name: 'Supun Priyanath',
+      image: 'https://avatars.githubusercontent.com/u/12345678?v=4', // Random avatar
+    });
+  };
+
+  const handleTriggerIncomingVideoCall = () => {
+    setIncomingVideoCall({
       name: 'Supun Priyanath',
       image: 'https://avatars.githubusercontent.com/u/12345678?v=4', // Random avatar
     });
@@ -125,6 +145,17 @@ export default function App() {
           contact={incomingCall}
           onAccept={handleAcceptCall}
           onDecline={handleDeclineCall}
+          mode={mode}
+        />
+      );
+    }
+
+    if (incomingVideoCall) {
+      return (
+        <IncomingVideoCallScreen
+          contact={incomingVideoCall}
+          onAccept={handleAcceptVideoCall}
+          onDecline={handleDeclineVideoCall}
           mode={mode}
         />
       );
@@ -241,6 +272,7 @@ export default function App() {
             onProfilePress={() => setShowProfile(true)}
             mode={mode}
             onTriggerIncomingCall={handleTriggerIncomingCall}
+            onTriggerIncomingVideoCall={handleTriggerIncomingVideoCall}
           />
         );
       default:
