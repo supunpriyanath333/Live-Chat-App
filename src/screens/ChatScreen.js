@@ -25,6 +25,15 @@ const MOCK_MESSAGES = [
         replyTo: { author: 'Keyara Fernando', text: 'How are you ?' }
     },
     {
+        id: '11',
+        type: 'image',
+        imageUri: 'https://picsum.photos/seed/chat1/400/300',
+        time: '11:15',
+        date: '2026-02-23',
+        isMe: false,
+        avatar: 'https://i.pravatar.cc/150?u=4'
+    },
+    {
         id: '5',
         text: 'ok..',
         time: '11:32',
@@ -34,7 +43,28 @@ const MOCK_MESSAGES = [
         replyTo: { author: 'You', text: 'i am good..' }
     },
     { id: '6', text: 'How about you?', time: '11:33', date: '2026-02-24', isMe: true, read: true, avatar: MY_AVATAR },
+    {
+        id: '12',
+        type: 'video',
+        thumbnail: 'https://picsum.photos/seed/video1/400/300',
+        duration: '01:24',
+        time: '11:35',
+        date: '2026-02-24',
+        isMe: true,
+        read: true,
+        avatar: MY_AVATAR
+    },
     { id: '7', text: 'I hope fine. noh?', time: '11:34', date: '2026-02-24', isMe: true, read: true, avatar: MY_AVATAR },
+    {
+        id: '13',
+        type: 'document',
+        fileName: 'Project_Requirements.pdf',
+        fileSize: '2.4 MB',
+        time: '11:38',
+        date: '2026-02-24',
+        isMe: false,
+        avatar: 'https://i.pravatar.cc/150?u=4'
+    },
     {
         id: '8',
         text: 'Yes. fine',

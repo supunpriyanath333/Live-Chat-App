@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { Play, CheckCheck, CornerDownRight, CornerDownLeft } from 'lucide-react-native';
+import { Play, CheckCheck, CornerDownRight, CornerDownLeft, FileText, Download } from 'lucide-react-native';
 import { Colors } from '../constants/colors';
 import { GlobalStyles } from '../constants/globalStyles';
 
@@ -78,6 +78,37 @@ const MessageBubble = ({ message, isMe, theme, mode }) => {
                                 <Text style={[styles.duration, { color: isMe ? Colors.dark.text : theme.secondaryText }]}>
                                     {message.duration}
                                 </Text>
+                            </View>
+                        ) : message.type === 'image' ? (
+                            <View style={styles.mediaContainer}>
+                                <Image source={{ uri: message.imageUri }} style={styles.imageMedia} resizeMode="cover" />
+                            </View>
+                        ) : message.type === 'video' ? (
+                            <View style={styles.mediaContainer}>
+                                <Image source={{ uri: message.thumbnail }} style={styles.imageMedia} resizeMode="cover" />
+                                <View style={styles.videoOverlay}>
+                                    <View style={styles.playIconContainer}>
+                                        <Play size={20} color="#fff" fill="#fff" />
+                                    </View>
+                                    <Text style={styles.videoDuration}>{message.duration}</Text>
+                                </View>
+                            </View>
+                        ) : message.type === 'document' ? (
+                            <View style={styles.documentContainer}>
+                                <View style={[styles.fileIcon, { backgroundColor: isMe ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.05)' }]}>
+                                    <FileText size={24} color={isMe ? Colors.dark.text : theme.primary} />
+                                </View>
+                                <View style={styles.fileInfo}>
+                                    <Text style={[styles.fileName, { color: isMe ? Colors.dark.text : theirTextColor }]} numberOfLines={1}>
+                                        {message.fileName}
+                                    </Text>
+                                    <Text style={[styles.fileSize, { color: isMe ? 'rgba(255,255,255,0.7)' : theme.secondaryText }]}>
+                                        {message.fileSize}
+                                    </Text>
+                                </View>
+                                <TouchableOpacity style={styles.downloadBtn}>
+                                    <Download size={20} color={isMe ? Colors.dark.text : theme.secondaryText} />
+                                </TouchableOpacity>
                             </View>
                         ) : (
                             <Text style={[styles.text, { color: isMe ? Colors.dark.text : theirTextColor }]}>
@@ -214,6 +245,68 @@ const styles = StyleSheet.create({
     },
     duration: {
         fontSize: 11
+    },
+    mediaContainer: {
+        width: 180,
+        height: 120,
+        borderRadius: 8,
+        overflow: 'hidden',
+        marginHorizontal: -8,
+        marginVertical: -5,
+    },
+    imageMedia: {
+        width: '100%',
+        height: '100%',
+    },
+    videoOverlay: {
+        ...StyleSheet.absoluteFillObject,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0,0,0,0.2)',
+    },
+    playIconContainer: {
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    videoDuration: {
+        position: 'absolute',
+        bottom: 5,
+        right: 10,
+        color: '#fff',
+        fontSize: 10,
+        fontWeight: 'bold',
+    },
+    documentContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingVertical: 5,
+        gap: 12,
+        width: 180,
+    },
+    fileIcon: {
+        width: 45,
+        height: 45,
+        borderRadius: 8,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    fileInfo: {
+        flex: 1,
+    },
+    fileName: {
+        fontSize: 13,
+        fontWeight: '600',
+    },
+    fileSize: {
+        fontSize: 11,
+        marginTop: 2,
+    },
+    downloadBtn: {
+        padding: 5,
     }
 });
 
