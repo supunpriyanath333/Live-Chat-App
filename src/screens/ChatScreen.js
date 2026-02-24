@@ -11,13 +11,14 @@ import { GlobalStyles } from '../constants/globalStyles';
 const MY_AVATAR = require('../../assets/google.png');
 
 const MOCK_MESSAGES = [
-    { id: '1', text: 'Hii..', time: '08:31', isMe: false, avatar: 'https://i.pravatar.cc/150?u=4' },
-    { id: '2', text: 'Hii.. Keyara.', time: '10:32', isMe: true, read: true, avatar: MY_AVATAR },
-    { id: '3', text: 'How are you ?', time: '10:45', isMe: false, avatar: 'https://i.pravatar.cc/150?u=4' },
+    { id: '1', text: 'Hii..', time: '08:31', date: '2025-01-22', isMe: false, avatar: 'https://i.pravatar.cc/150?u=4' },
+    { id: '2', text: 'Hii.. Keyara.', time: '10:32', date: '2025-01-22', isMe: true, read: true, avatar: MY_AVATAR },
+    { id: '3', text: 'How are you ?', time: '10:45', date: '2026-02-23', isMe: false, avatar: 'https://i.pravatar.cc/150?u=4' },
     {
         id: '4',
         text: 'i am good..',
         time: '11:00',
+        date: '2026-02-23',
         isMe: true,
         read: true,
         avatar: MY_AVATAR,
@@ -27,16 +28,18 @@ const MOCK_MESSAGES = [
         id: '5',
         text: 'ok..',
         time: '11:32',
+        date: '2026-02-23',
         isMe: false,
         avatar: 'https://i.pravatar.cc/150?u=4',
         replyTo: { author: 'You', text: 'i am good..' }
     },
-    { id: '6', text: 'How about you?', time: '11:33', isMe: true, read: true, avatar: MY_AVATAR },
-    { id: '7', text: 'I hope fine. noh?', time: '11:34', isMe: true, read: true, avatar: MY_AVATAR },
+    { id: '6', text: 'How about you?', time: '11:33', date: '2026-02-24', isMe: true, read: true, avatar: MY_AVATAR },
+    { id: '7', text: 'I hope fine. noh?', time: '11:34', date: '2026-02-24', isMe: true, read: true, avatar: MY_AVATAR },
     {
         id: '8',
         text: 'Yes. fine',
         time: '11:40',
+        date: '2026-02-24',
         isMe: false,
         avatar: 'https://i.pravatar.cc/150?u=4',
         replyTo: { author: 'You', text: 'I hope fine. noh?' }
@@ -46,6 +49,7 @@ const MOCK_MESSAGES = [
         type: 'audio',
         duration: '00:16',
         time: '20:45',
+        date: '2026-02-24',
         isMe: false,
         avatar: 'https://i.pravatar.cc/150?u=4'
     },
@@ -54,6 +58,7 @@ const MOCK_MESSAGES = [
         type: 'audio',
         duration: '00:10',
         time: '20:51',
+        date: '2026-02-24',
         isMe: true,
         read: true,
         avatar: MY_AVATAR
@@ -65,15 +70,51 @@ export default function ChatScreen({ chat, onBack, mode, onCall, onVideoCall }) 
     const [messages, setMessages] = useState(MOCK_MESSAGES);
 
     const handleSend = (text) => {
+        const now = new Date();
         const newMessage = {
             id: String(messages.length + 1),
             text,
-            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            time: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            date: now.toISOString().split('T')[0],
             isMe: true,
             read: false,
             avatar: MY_AVATAR
         };
         setMessages([...messages, newMessage]);
+    };
+
+    const formatDateLabel = (dateString) => {
+        const date = new Date(dateString);
+        const today = new Date();
+        const yesterday = new Date();
+        yesterday.setDate(today.getDate() - 1);
+
+        const isToday = date.toDateString() === today.toDateString();
+        const isYesterday = date.toDateString() === yesterday.toDateString();
+
+        if (isToday) return 'Today';
+        if (isYesterday) return 'Yesterday';
+
+        return date.toLocaleDateString('en-GB', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        });
+    };
+
+    const getGroupedMessages = () => {
+        const grouped = [];
+        let lastDate = null;
+
+        messages.forEach((msg) => {
+            if (msg.date !== lastDate) {
+                grouped.push({ id: `date-${msg.date}`, isDateSeparator: true, date: msg.date });
+                lastDate = msg.date;
+            }
+            grouped.push(msg);
+        });
+
+        return grouped;
     };
 
     return (
@@ -113,9 +154,22 @@ export default function ChatScreen({ chat, onBack, mode, onCall, onVideoCall }) 
             {/* Using a subtle pattern or solid color for background */}
             <View style={styles.chatArea}>
                 <FlatList
-                    data={messages}
+                    data={getGroupedMessages()}
                     keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => <MessageBubble message={item} isMe={item.isMe} theme={theme} mode={mode} />}
+                    renderItem={({ item }) => {
+                        if (item.isDateSeparator) {
+                            return (
+                                <View style={styles.dateSeparator}>
+                                    <View style={[styles.dateLine, { backgroundColor: mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)' }]} />
+                                    <Text style={[styles.dateText, { color: theme.secondaryText }]}>
+                                        {formatDateLabel(item.date)}
+                                    </Text>
+                                    <View style={[styles.dateLine, { backgroundColor: mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)' }]} />
+                                </View>
+                            );
+                        }
+                        return <MessageBubble message={item} isMe={item.isMe} theme={theme} mode={mode} />;
+                    }}
                     contentContainerStyle={styles.listContent}
                     showsVerticalScrollIndicator={false}
                 />
@@ -171,7 +225,23 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     listContent: {
-        paddingVertical: 20,
+        paddingVertical: 10,
         paddingHorizontal: 10,
+    },
+    dateSeparator: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginVertical: 20,
+        paddingHorizontal: 10,
+    },
+    dateLine: {
+        flex: 1,
+        height: 1,
+    },
+    dateText: {
+        fontSize: 12,
+        fontWeight: '500',
+        marginHorizontal: 15,
+        textTransform: 'capitalize',
     },
 });
