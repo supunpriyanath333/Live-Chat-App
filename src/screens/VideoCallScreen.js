@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Image, Dimensions } from 'react-native';
-import { PhoneOff, Mic, MicOff, Camera, CameraOff, SwitchCamera } from 'lucide-react-native';
+import { PhoneOff, Mic, MicOff, Camera, CameraOff, SwitchCamera, User } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../hooks/useTheme';
 import { GlobalStyles } from '../constants/globalStyles';
